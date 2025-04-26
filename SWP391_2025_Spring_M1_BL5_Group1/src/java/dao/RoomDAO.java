@@ -7,10 +7,12 @@ import model.Rooms;
 import java.lang.System.Logger;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -236,7 +238,7 @@ public class RoomDAO extends DBContext {
             if (rs.next()) {
                 String userName = rs.getString("userName");
                 String userGender = rs.getString("userGender");
-                String userBirth = rs.getString("userBirth");
+                LocalDate userBirth = rs.getDate("userBirth").toLocalDate();
                 String userAddress = rs.getString("userAddress");
                 String userPhone = rs.getString("userPhone");
                 String email = rs.getString("userMail");
@@ -263,7 +265,7 @@ public class RoomDAO extends DBContext {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, ownerProfile.getUserName());
             pre.setString(2, ownerProfile.getUserGender());
-            pre.setString(3, ownerProfile.getUserBirth());
+            pre.setDate(3, Date.valueOf(ownerProfile.getUserBirth()));
             pre.setString(4, ownerProfile.getUserAddress());
             pre.setString(5, ownerProfile.getUserPhone());
             pre.setInt(6, ownerProfile.getUserID());

@@ -4,8 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/admin/Manage.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/emailSender.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/security/ImportServlet.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/owner/OwnerController.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/admin/manage-user.jsp</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/LoginController.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/ownerProfile.jsp</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/dao/DAO.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/register.jsp</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Guest/GuestHome.jsp</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/dao/DBContext.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/dao/AccountDAO.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/guest/GuestController.java</file>
         </group>
     </open-files>
 </project-private>

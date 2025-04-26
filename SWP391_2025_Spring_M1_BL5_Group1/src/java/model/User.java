@@ -4,12 +4,15 @@
  */
 package model;
 
+import java.time.LocalDate;
+import java.sql.Date;
 
-public class User{
+public class User {
+
     private int userID;
     private String userName;
     private String userGender;
-    private String userBirth;
+    private LocalDate userBirth;
     private String userAddress;
     private String userPhone;
     private String userAvatar;
@@ -18,17 +21,16 @@ public class User{
     private Room room;
     private Security security;
     private String email; // tự thêm 
-    
-    
+
     public User() {
     }
 
-        public User(int userID, String userAvatar) {
+    public User(int userID, String userAvatar) {
         this.userID = userID;
         this.userAvatar = userAvatar;
     }
 
-        public User(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, Account account, Renter renter, Room room) {
+    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String userAvatar, Account account, Renter renter, Room room) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
@@ -41,7 +43,7 @@ public class User{
         this.room = room;
     }
 
-    public User(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, Account account) {
+    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String userAvatar, Account account) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
@@ -52,7 +54,7 @@ public class User{
         this.account = account;
     }
 
-    public User(String userName, String userGender, String userBirth, String userAddress, String userPhone, String email, String userAvatar) {
+    public User(String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String email, String userAvatar) {
         this.userName = userName;
         this.userGender = userGender;
         this.userBirth = userBirth;
@@ -62,14 +64,13 @@ public class User{
         this.userAvatar = userAvatar;
     }
 
-    public User(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone) {
+    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
         this.userBirth = userBirth;
         this.userAddress = userAddress;
         this.userPhone = userPhone;
-        
     }
 
     public User(int userID, String userName, String userAvatar, Account account) {
@@ -79,7 +80,7 @@ public class User{
         this.account = account;
     }
 
-    public User(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar) {
+    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String userAvatar) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
@@ -89,7 +90,7 @@ public class User{
         this.userAvatar = userAvatar;
     }
 
-    public User(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, Account account, Security security) {
+    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String userAvatar, Account account, Security security) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
@@ -101,9 +102,7 @@ public class User{
         this.security = security;
     }
 
-    
-
-    public User(String userName, String userGender, String userBirth, String userAddress, String userPhone, String email) {
+    public User(String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String email) {
         this.userName = userName;
         this.userGender = userGender;
         this.userBirth = userBirth;
@@ -112,12 +111,6 @@ public class User{
         this.email = email;
     }
 
-    
-    
-    
-
-
-
     public Security getSecurity() {
         return security;
     }
@@ -125,7 +118,6 @@ public class User{
     public void setSecurity(Security security) {
         this.security = security;
     }
-    
 
     public int getUserID() {
         return userID;
@@ -151,11 +143,15 @@ public class User{
         this.userGender = userGender;
     }
 
-    public String getUserBirth() {
+    public LocalDate getUserBirth() {
         return userBirth;
     }
 
-    public void setUserBirth(String userBirth) {
+    public Date getFormattedDate() {
+        return Date.valueOf(userBirth); // LocalDate -> SQL Date
+    }
+
+    public void setUserBirth(LocalDate userBirth) {
         this.userBirth = userBirth;
     }
 
@@ -183,7 +179,7 @@ public class User{
         this.userAvatar = userAvatar;
     }
 
-     public Account getAccount() {
+    public Account getAccount() {
         return account;
     }
 
@@ -198,7 +194,7 @@ public class User{
     public void setRenter(Renter renter) {
         this.renter = renter;
     }
-    
+
     public Room getRoom() {
         return room;
     }
@@ -214,6 +210,5 @@ public class User{
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
 }

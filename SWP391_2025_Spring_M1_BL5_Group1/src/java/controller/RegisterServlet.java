@@ -11,11 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-
-@WebServlet(name = "LogoutController", urlPatterns = {"/logout"})
-public class LogoutController extends HttpServlet {
+/**
+ *
+ * @author New_user
+ */
+@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
+public class RegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,12 +30,7 @@ public class LogoutController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-         HttpSession session = request.getSession(false); // Fetch session if exists
-        if (session != null) {
-            session.invalidate(); // Invalidate the session
-        }
-        response.sendRedirect("login");
+        request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,7 +45,7 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
     /**

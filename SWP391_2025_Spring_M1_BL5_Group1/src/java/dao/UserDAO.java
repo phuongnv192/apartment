@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class UserDAO extends MyDAO {
 
     //Table - User
@@ -31,12 +30,27 @@ public class UserDAO extends MyDAO {
     //List User Data
     public List<User> getUserList() {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM [User]";
+        String sql = "SELECT [userID]\n"
+                + "      ,[userName]\n"
+                + "      ,[userGender]\n"
+                + "      ,[userBirth]\n"
+                + "      ,[userAddress]\n"
+                + "      ,[userPhone]\n"
+                + "      ,[userAvatar]\n"
+                + "FROM [User]";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                User user = new User(
+                        rs.getInt("userID"),
+                        rs.getString("userName"),
+                        rs.getString("userGender"),
+                        rs.getDate("userBirth").toLocalDate(),
+                        rs.getString("userAddress"),
+                        rs.getString("userPhone"),
+                        rs.getString("userAvatar")
+                );
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -54,13 +68,39 @@ public class UserDAO extends MyDAO {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                User user = new User(
+                        rs.getInt("userID"),
+                        rs.getString("userName"),
+                        rs.getString("userGender"),
+                        rs.getDate("userBirth").toLocalDate(),
+                        rs.getString("userAddress"),
+                        rs.getString("userPhone"),
+                        rs.getString("userAvatar")
+                );
                 list.add(user);
             }
         } catch (SQLException e) {
             System.out.println("Fail: " + e.getMessage());
         }
         return list;
+    }
+
+    public boolean isExistPhone(String phone) {
+        int recordNumber = 0;
+        String sql = "SELECT *\n"
+                + "FROM [user]\n"
+                + "WHERE [userPhone] = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, phone);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Fail: " + e.getMessage());
+        }
+        return false;
     }
 
 //    //list Renter information detail
@@ -151,7 +191,13 @@ public class UserDAO extends MyDAO {
 //    }
     public List<User> getOwner() {
         List<User> list = new ArrayList<>();
-        String sql = "  SELECT [User].userID, [User].userName, [User].userGender, [User].userBirth, [User].userAddress, [User].userPhone, [User].userAvatar\n"
+        String sql = "  SELECT [User].userID, "
+                + "[User].userName, "
+                + "[User].userGender, "
+                + "[User].userBirth, "
+                + "[User].userAddress, "
+                + "[User].userPhone, "
+                + "[User].userAvatar\n"
                 + "     FROM [User]\n"
                 + "     INNER JOIN Account ON [User].userID = Account.userID\n"
                 + "     WHERE Account.userRole = 3";
@@ -160,7 +206,15 @@ public class UserDAO extends MyDAO {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                User user = new User(
+                        rs.getInt("userID"),
+                        rs.getString("userName"),
+                        rs.getString("userGender"),
+                        rs.getDate("userBirth").toLocalDate(),
+                        rs.getString("userAddress"),
+                        rs.getString("userPhone"),
+                        rs.getString("userAvatar")
+                );
                 list.add(user);
             }
         } catch (SQLException e) {

@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import model.*;
 import org.json.simple.JSONArray;
@@ -60,7 +61,7 @@ public class OwnerController extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
-                        
+
         if (service == null) {
             service = "OwnerHome";
         }
@@ -128,12 +129,10 @@ public class OwnerController extends HttpServlet {
         }
     }
 
-    
-
     private void getOwnerProfile(HttpServletRequest request, HttpServletResponse response, int flag) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
-                HttpSession session = request.getSession();
-int userID = (int) session.getAttribute("userID");
+        HttpSession session = request.getSession();
+        int userID = (int) session.getAttribute("userID");
 
         User ownerProfile = dao.getOwnerProfileByID(userID);
         request.setAttribute("ownerProfile", ownerProfile);
@@ -147,15 +146,13 @@ int userID = (int) session.getAttribute("userID");
     private void updateAvatar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
         Part photo = request.getPart("img");
-                        HttpSession session = request.getSession();
-int userID = (int) session.getAttribute("userID");
+        HttpSession session = request.getSession();
+        int userID = (int) session.getAttribute("userID");
         byte[] avatar_raw = convertInputStreamToByteArray(photo.getInputStream());
         String avatar = Base64.getEncoder().encodeToString(avatar_raw);
         int updateAvatar = dao.updateAvatar(new User(userID, avatar));
         request.getRequestDispatcher("OwnerController?service=editOwnerProfile").forward(request, response);
     }
-
-    
 
     private void updateOwnerProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
@@ -166,42 +163,45 @@ int userID = (int) session.getAttribute("userID");
         String gender = request.getParameter("gender");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
-                        HttpSession session = request.getSession();
-int userID = (int) session.getAttribute("userID");
- if (fullName == null || fullName.isEmpty() || fullName.trim().isEmpty()) {
-        hasError = true;
-        request.setAttribute("fullNameError", "Tên đầy đủ là bắt buộc.");
-    }
-    
-    // Kiểm tra số điện thoại
-    if (phone == null || phone.length() != 10 || !phone.startsWith("0") || !phone.matches("[0-9]+")) {
-        hasError = true;
-        request.setAttribute("phoneError", "Số điện thoại không hợp lệ.");
-    }
-    
-    // Kiểm tra địa chỉ
-    if (address == null || address.isEmpty() || address.trim().isEmpty()) {
-        hasError = true;
-        request.setAttribute("addressError", "Địa chỉ là bắt buộc.");
-    }
-    
-    // Kiểm tra ngày sinh (độ tuổi)
-    if (dob != null) {
-        LocalDate birthDate = LocalDate.parse(dob);
-        int age = Period.between(birthDate, LocalDate.now()).getYears();
-        if (age < 18) {
+        HttpSession session = request.getSession();
+        int userID = (int) session.getAttribute("userID");
+        if (fullName == null || fullName.isEmpty() || fullName.trim().isEmpty()) {
             hasError = true;
-            request.setAttribute("dobError", "Bạn phải ít nhất 18 tuổi.");
+            request.setAttribute("fullNameError", "Tên đầy đủ là bắt buộc.");
         }
-    }
-    
-    if (hasError) {
-        request.setAttribute("error", "Vui lòng sửa các lỗi.");
-                    request.getRequestDispatcher("OwnerController?service=ownerProfile").forward(request, response);
-    } else {
-        int update = dao.updateOwnerProfile(new User(userID, fullName, gender, dob, address, phone));
-                    request.getRequestDispatcher("OwnerController?service=ownerProfile").forward(request, response);
-    }
+
+        // Kiểm tra số điện thoại
+        if (phone == null || phone.length() != 10 || !phone.startsWith("0") || !phone.matches("[0-9]+")) {
+            hasError = true;
+            request.setAttribute("phoneError", "Số điện thoại không hợp lệ.");
+        }
+
+        // Kiểm tra địa chỉ
+        if (address == null || address.isEmpty() || address.trim().isEmpty()) {
+            hasError = true;
+            request.setAttribute("addressError", "Địa chỉ là bắt buộc.");
+        }
+
+        // Kiểm tra ngày sinh (độ tuổi)
+        LocalDate birthDate = null;
+        if (dob != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            birthDate = LocalDate.parse(dob, formatter);
+            int age = Period.between(birthDate, LocalDate.now()).getYears();
+            if (age < 18) {
+                hasError = true;
+                request.setAttribute("dobError", "Bạn phải ít nhất 18 tuổi.");
+            }
+        }
+
+        if (hasError) {
+            request.setAttribute("error", "Vui lòng sửa các lỗi.");
+            request.getRequestDispatcher("OwnerController?service=ownerProfile").forward(request, response);
+            return;
+        } else {
+            int update = dao.updateOwnerProfile(new User(userID, fullName, gender, birthDate, address, phone));
+            request.getRequestDispatcher("OwnerController?service=ownerProfile").forward(request, response);
+        }
 
     }
 
@@ -300,8 +300,6 @@ int userID = (int) session.getAttribute("userID");
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
- 
 
     private void updateRoomStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();

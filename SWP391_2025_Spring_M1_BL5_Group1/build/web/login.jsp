@@ -37,7 +37,7 @@
                         <br/>
                         <span class="details">
                             Don't have an account?
-                            <a href="register.jsp" style="text-decoration: none; font-weight: 600;">Register now</a>
+                            <a href="register" style="text-decoration: none; font-weight: 600;">Register now</a>
                         </span>
                     </div>
                     <div class="button">

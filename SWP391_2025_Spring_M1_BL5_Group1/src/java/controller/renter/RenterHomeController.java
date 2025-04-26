@@ -36,7 +36,7 @@ public class RenterHomeController extends HttpServlet {
             session.setAttribute("imgAvata", imgAvata);
             request.getRequestDispatcher("Renter/RenterHome.jsp").forward(request, response);
         } else {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("login");
         }
     }
 
