@@ -88,23 +88,12 @@
             <div class="Table-responsive">
                 <main>
                     <h1>List Request</h1>
-                <% 
-// Retrieve message from session
-String message = (String) session.getAttribute("message");
-    
-// Clear the message from the session after displaying it
-if (message != null) {
-    session.removeAttribute("message");
-                %>
-                <div class="alert alert-info" role="alert">
-                    <%= message %>
+                    <div class="alert alert-info" role="alert">
+                    ${message}
                 </div>
-                <% 
-                    } 
-                %>
+
                 <div role="region" aria-labelledby="Cap1" tabindex="0">
                     <table id="Books">
-                        <caption id="Cap1">The list will run Hope so...</caption>
                         <tr>
                             <th>User Name</th>
                             <th>Title</th>
@@ -124,12 +113,15 @@ if (message != null) {
                                     <form action="OwnerController" method="post">
                                         <input type="hidden" name="requestId" value="${request.requestID}">
                                         <input type="hidden" name="service" value="changereqstatus">
-                                        <select name="status">
+                                        <select name="status" ${request.resStatus != 'Pending' ? 'disabled' : ''}>
                                             <option value="Pending" ${request.resStatus == 'Pending' ? 'selected' : ''}>Pending</option>
                                             <option value="Denied" ${request.resStatus == 'Denied' ? 'selected' : ''}>Denied</option>
                                             <option value="Accepted" ${request.resStatus == 'Accepted' ? 'selected' : ''}>Accepted</option>
                                         </select>
-                                        <button type="submit">Update</button>
+                                        <c:if test="${request.resStatus == 'Pending'}">
+                                            <button type="submit">Update</button>
+                                        </c:if>
+
                                     </form>
                                 </td>
                             </tr>

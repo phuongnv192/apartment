@@ -1,6 +1,7 @@
 package controller.owner;
 
 import dao.RenterDAO;
+import dao.RequestDAO;
 
 import dao.RoomDAO;
 import dao.UserDAO;
@@ -88,6 +89,10 @@ public class OwnerController extends HttpServlet {
             addItem(request, response);
         } else if (service.equals("updateRoomDetail")) {
             updateRoomDetail(request, response);
+        } else if (service.equals("listrequest")) {
+            requestList(request, response, 0);
+        } else if (service.equals("changereqstatus")) {
+            requestList(request, response, 1);
         }
     }
 
@@ -151,6 +156,46 @@ public class OwnerController extends HttpServlet {
         }
     }
 
+    private void requestList(HttpServletRequest request, HttpServletResponse response, int flag) throws ServletException, IOException {
+        RequestDAO requestDAO = new RequestDAO();
+
+        if (flag == 0) {
+            // Get the list of all requests
+            List<RequestList> requests = requestDAO.getAllRequest();
+            // Store the list in the request scope
+            request.setAttribute("requests", requests);
+            // Forward to the JSP page
+            request.getRequestDispatcher("Owner/OwnerRequest.jsp").forward(request, response);
+        } else if (flag == 1) {
+            // REQUEST STATUS UPDATE
+            String rawRequestId = request.getParameter("requestId");
+            String status = request.getParameter("status");
+
+            if (rawRequestId != null && status != null) {
+                try {
+                    int requestId = Integer.parseInt(rawRequestId);
+                    // Fetch the current request
+                    RequestList currentRequest = requestDAO.getRequestByID(requestId);
+                    if (currentRequest != null) {
+                        // Update the request status
+                        boolean updateSuccess = requestDAO.updateRequestStatus(status, requestId);
+
+                        if (updateSuccess) {
+                            // Set success message
+                            request.setAttribute("message", "Request status updated successfully.");
+                        } else {
+                            // Set failure message
+                            request.setAttribute("message", "Failed to update request status.");
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+            // Redirect back to the list page
+            request.getRequestDispatcher("OwnerController?service=listrequest").forward(request, response);
+        }
+    }
+
     private void updateRoomDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
         List<Rooms> listRoom = dao.getRooms();
@@ -210,7 +255,7 @@ public class OwnerController extends HttpServlet {
         int updateRoomDetail = dao.updateRoomDetail(roomID, roomFee, roomImg, roomNumber);
         request.getRequestDispatcher("OwnerController?service=roomDetail").forward(request, response);
     }
-    
+
     private void updateAvatar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
         Part photo = request.getPart("img");
