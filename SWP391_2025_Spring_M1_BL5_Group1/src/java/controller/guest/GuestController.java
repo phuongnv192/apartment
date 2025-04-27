@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.RoomDetailSe;
+import model.RoomDetail;
 import model.Rooms;
 import model.Slider;
 import model.UserDetail;
@@ -91,7 +91,7 @@ public class GuestController extends HttpServlet {
         RoomDAO dao = new RoomDAO();
 
         int roomID = Integer.parseInt(request.getParameter("roomID"));
-        RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
+        RoomDetail roomDetail = dao.getRoomDetail(roomID);
         request.setAttribute("roomDetail", roomDetail);
         request.getRequestDispatcher("Guest/RoomDetail.jsp").forward(request, response);
     }

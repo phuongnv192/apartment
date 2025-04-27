@@ -74,6 +74,20 @@ public class OwnerController extends HttpServlet {
             updateAvatar(request, response);
         } else if (service.equals("roomDetail")) {
             roomDetail(request, response, 0);
+        } else if (service.equals("editRoom")) {
+            roomDetail(request, response, 1);
+        } else if (service.equals("updateRoomStatus")) {
+            updateRoomStatus(request, response);
+        } else if (service.equals("setUnderRepair")) {
+            setUnderRepair(request, response);
+        } else if (service.equals("updateRoomItem")) {
+            updateRoomItem(request, response);
+        } else if (service.equals("deleteItem")) {
+            deleteItem(request, response);
+        } else if (service.equals("addItem")) {
+            addItem(request, response);
+        } else if (service.equals("updateRoomDetail")) {
+            updateRoomDetail(request, response);
         }
     }
 
@@ -85,9 +99,10 @@ public class OwnerController extends HttpServlet {
         RoomDAO dao = new RoomDAO();
         int index = Integer.parseInt(request.getParameter("index"));
 
-        List<Rooms> rooms = dao.pagingRoom(index, 1);
-        List<Rooms> allRooms = dao.getRooms();
-        int totalRoom = dao.getTotalRoom();
+        int ownerID = (int) request.getSession().getAttribute("userID");
+        List<Rooms> rooms = dao.pagingRoomOwner(index, ownerID);
+        List<Rooms> allRooms = dao.getRoomByOwner(ownerID);
+        int totalRoom = allRooms.size();
         int totalPage = totalRoom / 6;
         if (totalRoom % 6 != 0) {
             totalPage++;
@@ -106,7 +121,7 @@ public class OwnerController extends HttpServlet {
         RenterDAO daoRenter = new RenterDAO();
         HttpSession session = request.getSession();
         int roomID = Integer.parseInt(request.getParameter("roomID"));
-        RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
+        RoomDetail roomDetail = dao.getRoomDetail(roomID);
         List<String> listNameRenter = daoRenter.getRenterName(roomID);
         request.setAttribute("roomDetail", roomDetail);
         request.setAttribute("listNameRenter", listNameRenter);
@@ -136,6 +151,66 @@ public class OwnerController extends HttpServlet {
         }
     }
 
+    private void updateRoomDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RoomDAO dao = new RoomDAO();
+        List<Rooms> listRoom = dao.getRooms();
+        int roomID = Integer.parseInt(request.getParameter("roomID"));
+        RoomDetail roomDetail = dao.getRoomDetail(roomID);
+        int currentRoomNumber = roomDetail.getRoomNumber();
+        double roomFee = 0;
+        int roomNumber = 0;
+
+        try {
+            roomNumber = Integer.parseInt(request.getParameter("roomNumber").trim());
+            if (roomNumber <= 0) {
+                request.setAttribute("error", "Invalid room number");
+                request.getRequestDispatcher("OwnerController?service=editRoom&roomID=" + roomID).forward(request, response);
+                return;
+            }
+            if (!dao.isExistRoomNumber(roomNumber)) {
+                if (roomNumber != dao.getCurrentRoomNumber(roomID)) {
+                    request.setAttribute("error", "Room number is exist!!!");
+                    request.getRequestDispatcher("OwnerController?service=editRoom&roomID=" + roomID).forward(request, response);
+                    return;
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Invalid room number");
+            request.getRequestDispatcher("OwnerController?service=editRoom&roomID=" + roomID).forward(request, response);
+            return;
+        }
+
+        try {
+            roomFee = Double.parseDouble(request.getParameter("roomFee").trim());
+            if (roomFee <= 0) {
+                request.setAttribute("error", "Room Fee have to great than 0!!!");
+                request.getRequestDispatcher("OwnerController?service=editRoom&roomID=" + roomID).forward(request, response);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Invalid room fee");
+            request.getRequestDispatcher("OwnerController?service=editRoom&roomID=" + roomID).forward(request, response);
+            return;
+        }
+
+        Part photo = request.getPart("roomImg");
+        String contentType = photo.getContentType();
+        byte[] roomImg_raw = null;
+        String roomImg = "";
+        if (!contentType.equals("image/jpeg")) {
+            request.setAttribute("error", "Invalid room image");
+            request.getRequestDispatcher("OwnerController?service=editRoom&roomID=" + roomID).forward(request, response);
+            return;
+        } else {
+            roomImg_raw = convertInputStreamToByteArray(photo.getInputStream());
+            roomImg = Base64.getEncoder().encodeToString(roomImg_raw);
+        }
+
+        int updateRoomDetail = dao.updateRoomDetail(roomID, roomFee, roomImg, roomNumber);
+        request.getRequestDispatcher("OwnerController?service=roomDetail").forward(request, response);
+    }
+    
     private void updateAvatar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
         Part photo = request.getPart("img");
@@ -243,6 +318,35 @@ public class OwnerController extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private void deleteItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RoomDAO dao = new RoomDAO();
+        int roomID = Integer.parseInt(request.getParameter("roomID"));
+        int itemID = Integer.parseInt(request.getParameter("itemID"));
+        int remove = dao.deleteRoomItem(roomID, itemID);
+        request.getRequestDispatcher("OwnerController?service=editRoom").forward(request, response);
+    }
+
+    private void addItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RoomDAO dao = new RoomDAO();
+        String itemName = request.getParameter("itemName");
+        int roomID = Integer.parseInt(request.getParameter("roomID"));
+        int quantity = Integer.parseInt(request.getParameter("quantity").trim());
+        int itemID = dao.getItemIDOrQuantityByItemName(itemName, 0, 0);
+        RoomDetail roomDetail = dao.getRoomDetail(roomID);
+
+        String[] listItemName = roomDetail.getItemName();
+        for (String string : listItemName) {
+            if (string.equalsIgnoreCase(itemName)) {
+                int newQuantity = dao.getItemIDOrQuantityByItemName(itemName, 1, roomID) + quantity;
+                int updateQuantity = dao.updateItemQuantity(roomID, itemID, newQuantity);
+                request.getRequestDispatcher("OwnerController?service=editRoom").forward(request, response);
+                return;
+            }
+        }
+        int addItem = dao.addRoomItem(roomID, itemID, quantity);
+        request.getRequestDispatcher("OwnerController?service=editRoom").forward(request, response);
     }
 
     public byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {

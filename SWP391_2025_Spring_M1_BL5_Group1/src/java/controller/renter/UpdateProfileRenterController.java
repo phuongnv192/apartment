@@ -62,11 +62,11 @@ public class UpdateProfileRenterController extends HttpServlet {
                 request.getRequestDispatcher("Renter/RenterUpdateProfile.jsp").forward(request, response);
             } else {
                 // If no user detail is found, redirect to login page
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login");
             }
         } else {
             // If email or password is not found in the session, redirect the user to the login page
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("login");
         }
     }
     

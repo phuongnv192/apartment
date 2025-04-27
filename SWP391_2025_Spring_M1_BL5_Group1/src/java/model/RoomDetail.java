@@ -1,6 +1,6 @@
 package model;
 
-public class RoomDetailSe {
+public class RoomDetail {
 
     private int roomID;
     private int roomNumber;
@@ -17,10 +17,10 @@ public class RoomDetailSe {
     private int[] quantity;
     private double roomFee;
     private int[] itemID;
-    private int roomOccupant; // thêm ngày 21 / 7
-    private int roomStatus; // thêm ngày 21 / 7
+    private int roomOccupant;
+    private int roomStatus;
 
-    public RoomDetailSe(int roomID, int roomNumber, int roomSize, int roomFloor, 
+    public RoomDetail(int roomID, int roomNumber, int roomSize, int roomFloor, 
             String roomImg, String[] itemName, byte[] itemImg, int[] quantity, 
             double roomFee, int[] itemID, int roomOccupant, int roomStatus) {
         this.roomID = roomID;
@@ -77,7 +77,7 @@ public class RoomDetailSe {
         this.quantity = quantity;
     }
 
-    public RoomDetailSe() {
+    public RoomDetail() {
     }
 
     public int getRoomID() {

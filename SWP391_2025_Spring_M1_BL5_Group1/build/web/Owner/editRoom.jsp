@@ -3,6 +3,9 @@
 <%@page import="dao.RoomDAO,java.util.List"%>
 <%@page import="model.RoomDetailSe"%>
 <%@ page import="java.text.DecimalFormat" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% RoomDetailSe roomDetail = (RoomDetailSe) request.getAttribute("roomDetail"); 
    String[] listItemNames = (String[]) request.getAttribute("listItem");
@@ -16,8 +19,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="shortcut icon" href="images/favicon.png">
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css'>
-        <title>Edit Owner Profile</title>
- <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+        <title>Edit Room</title>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -154,12 +157,12 @@
             }
 
             .under-repair-form {
-                margin: 20px auto; 
+                margin: 20px auto;
                 padding: 15px;
                 border: 1px solid #ddd;
                 border-radius: 5px;
                 background-color: #f9f9f9;
-                width: 400px; 
+                width: 400px;
             }
 
             .under-repair-form select {
@@ -168,7 +171,7 @@
                 border: 1px solid #ccc;
                 border-radius: 5px;
                 font-size: 16px;
-                box-sizing: border-box; 
+                box-sizing: border-box;
             }
 
             .under-repair-form input[type="submit"] {
@@ -181,7 +184,7 @@
                 font-size: 16px;
                 cursor: pointer;
                 display: block;
-                width: 100%; 
+                width: 100%;
             }
 
             .under-repair-form input[type="submit"]:hover {
@@ -226,9 +229,7 @@
 
                         <div class="col-lg-8 mx-auto">                       
                             <div class="card">
-                            <% if (error != null) { %>
-                            <p style="margin: 0px; text-align: center; color: red; margin: 10px 0px; background: beige"><%= error %></p>
-                            <%}%>
+                                <p style="margin: 0px; text-align: center; color: red; margin: 10px 0px; background: beige">${error}</p>
                             <form action="OwnerController" method="post" enctype="multipart/form-data">
                                 <div class="card-body">                                    
                                     <div class="row mb-3">
@@ -236,7 +237,7 @@
                                             <h6 class="mb-0">Room Number</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input  type="text" class="form-control" name="roomNumber" value="<%= roomDetail.getRoomNumber()%>" readonly="">
+                                            <input  type="text" class="form-control" name="roomNumber" value="${roomDetail.roomNumber}" readonly="">
                                         </div>
                                     </div>                              
                                     <div class="row mb-3">
@@ -244,11 +245,7 @@
                                             <h6 class="mb-0">Room Fee</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <%
-                                                DecimalFormat df = new DecimalFormat("#.##");
-                                                String formattedFee = df.format(roomDetail.getRoomFee());
-                                            %>
-                                            <input type="text" class="form-control" name="roomFee" value="<%= formattedFee %>">
+                                            <input type="text" class="form-control" name="roomFee" value="${roomDetail.roomFee}">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -256,7 +253,7 @@
                                             <h6 class="mb-0">Room Size</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input readonly="" type="text" class="form-control" name="roomSize" value="<%= roomDetail.getRoomSize()%>">
+                                            <input readonly="" type="text" class="form-control" name="roomSize" value="${roomDetail.roomSize}">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -264,7 +261,7 @@
                                             <h6 class="mb-0">Room Image</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">                                           
-                                            <input type="file" class="form-control" name="roomImg" value="<%= roomDetail.getRoomImg()%>" required="" >
+                                            <input type="file" class="form-control" name="roomImg" value="${roomDetail.roomImg}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -317,7 +314,7 @@
                                         </div>
 
                                     </div>
-                                    <input type="hidden" name="roomID" value="<%= roomDetail.getRoomID()%>">
+                                    <input type="hidden" name="roomID" value="${roomDetail.roomID}">
                                     <input type="hidden" class="btn btn-primary px-4" name="service" value="updateRoomDetail">
                                 </div>               
                             </form>  
@@ -342,26 +339,33 @@
 
                             <form id="roomForm" action="OwnerController" method="post">
                                 <input type="hidden" name="service" value="updateRoomStatus">
-                                <input type="hidden" name="roomID" value="<%= roomDetail.getRoomID() %>">
-                                <input type="hidden" name="roomOccupant" value="<%= roomDetail.getRoomOccupant() %>">
-                                <input type="hidden" id="roomStatusInput" name="roomStatus" value="<%= roomStatus %>">
+                                <input type="hidden" name="roomID" value="${roomDetail.roomID}">
+                                <input type="hidden" name="roomOccupant" value="${roomDetail.roomOccupant}">
+                                <input type="hidden" id="roomStatusInput" name="roomStatus" value="${roomDetail.roomStatus}">
                                 <div class="row button-group">
                                     <div class="col-sm-12 text-center">
                                         <div class="status-container">
                                             <label class="switch">
-                                                <input type="checkbox" id="toggle" onclick="toggleButton()" <%= roomStatus == 1 ? "checked" : "" %>>
+                                                <input type="checkbox" id="toggle" onclick="toggleButton()" ${roomDetail.roomStatus == 1 ? 'checked' : '' }>
                                                 <span class="slider"></span>
                                             </label>
-                                            <p>Status: <span id="status"><%= statusLabel %></span></p>
-
+                                            <p>Status: <span id="status">
+                                                    <c:choose>
+                                                        <c:when test="${roomDetail.roomStatus eq 0}">Rented</c:when>
+                                                        <c:when test="${roomDetail.roomStatus eq 1}">Available</c:when>
+                                                        <c:when test="${roomDetail.roomStatus eq 2}">Under Repair</c:when>
+                                                        <c:otherwise>Unknown</c:otherwise>
+                                                    </c:choose>
+                                                </span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                             <form action="OwnerController" method="post" class="under-repair-form">
                                 <input type="hidden" name="service" value="setUnderRepair">
-                                <input type="hidden" name="roomID" value="<%= roomDetail.getRoomID() %>">
-                                <input type="hidden" name="roomStatus" value="<%= roomDetail.getRoomStatus() %>">
+                                <input type="hidden" name="roomID" value="${roomDetail.roomID}">
+                                <input type="hidden" name="roomStatus" value="${roomDetail.roomStatus}">
                                 <div class="form-group">
                                     <label for="updateRoomStatus">Update Room Status</label>
                                     <select name="updateRoomStatus" id="updateRoomStatus">
@@ -397,7 +401,7 @@
                                                     <input type="int" class="form-control" id="newQuantityModal" name="quantity" max="10">
                                                 </div>
                                                 <input type="hidden" name="service" value="addItem">
-                                                <input type="hidden" name="roomID" value="<%= roomDetail.getRoomID()%>">
+                                                <input type="hidden" name="roomID" value="${roomDetail.roomID}">
                                                 <button type="button" class="btn btn-primary" id="btnSubmitNewItemModal">Add Item</button>
                                             </form>
                                         </div>
@@ -464,7 +468,7 @@
                     hasInvalidQuantity = true;
                     alert("Quantity cannot be less than 0 for item: " + itemName);
                     return;
-                } 
+                }
 
                 updatedItems.push({itemID: itemID, itemName: itemName, quantity: quantity, roomID: roomID_updateItem});
             }

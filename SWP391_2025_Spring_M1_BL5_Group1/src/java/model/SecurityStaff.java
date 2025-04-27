@@ -4,8 +4,6 @@
  */
 package model;
 
-import model.*;
-
 public class SecurityStaff {
 
     private int seID;

@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/new-password.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/ForgotPassword.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/verifyCode.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/NewPassword.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/LoginController.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/register.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/confirm-otp.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/dao/AccountDAO.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/forgot-password.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/ValidateOtp.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/rooms.jsp</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/renter/RenterHomeController.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/owner/OwnerController.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/renter/RenterRoomController.java</file>
+            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/navbar.jsp</file>
         </group>
     </open-files>
 </project-private>
