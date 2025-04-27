@@ -2,11 +2,8 @@ package controller.renter;
 
 import model.User;
 import model.Account;
-import model.News;
-import dao.RenterDAO;
 import dao.RenterDAO;
 import java.io.IOException;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

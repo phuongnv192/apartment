@@ -14,6 +14,21 @@ public class Room {
     private RoomItem roomitem;
     private BigDecimal roomFee;
     private int roomOccupant;
+    private Department department;
+
+    public Room(int roomID, int roomFloor, int roomNumber, int roomSize, String roomImg, int total, Item item, RoomItem roomitem, BigDecimal roomFee, int roomOccupant, Department department) {
+        this.roomID = roomID;
+        this.roomFloor = roomFloor;
+        this.roomNumber = roomNumber;
+        this.roomSize = roomSize;
+        this.roomImg = roomImg;
+        this.total = total;
+        this.item = item;
+        this.roomitem = roomitem;
+        this.roomFee = roomFee;
+        this.roomOccupant = roomOccupant;
+        this.department = department;
+    }
 
     public Room(Item item, RoomItem roomitem) {
         this.item = item;
@@ -28,7 +43,7 @@ public class Room {
         this.roomImg = roomImg;
         this.roomFee = roomFee;
     }
-    
+
     public Room(int roomID, int roomFloor, int roomNumber, int roomSize, String roomImg, BigDecimal roomFee, int total, int roomOccupant) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
@@ -48,8 +63,7 @@ public class Room {
         this.roomImg = roomImg;
         this.total = total;
     }
-    
-    
+
     public Room(int roomID, int roomFloor, int roomNumber, int roomSize, String roomImg) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
@@ -57,15 +71,15 @@ public class Room {
         this.roomSize = roomSize;
         this.roomImg = roomImg;
     }
-    
+
     public Room(int roomID, int roomFloor, int roomNumber, int roomSize, BigDecimal roomFee) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
         this.roomNumber = roomNumber;
-        this.roomSize = roomSize;   
+        this.roomSize = roomSize;
         this.roomFee = roomFee;
     }
-    
+
     public Room() {
     }
 
@@ -148,11 +162,13 @@ public class Room {
     public void setRoomOccupant(int roomOccupant) {
         this.roomOccupant = roomOccupant;
     }
-    
-    
-    
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
 }
-
-
-   

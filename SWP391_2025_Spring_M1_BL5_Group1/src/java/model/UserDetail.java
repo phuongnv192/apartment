@@ -4,9 +4,9 @@
  */
 package model;
 
+public class UserDetail {
 
-public class UserDetail{
-     private int userID;
+    private int userID;
     private String userMail;
     private String userPassword;
     private int userRole;
@@ -20,13 +20,13 @@ public class UserDetail{
     private Account account;
     private Renter renter;
     private Room room;
-    private Security security;
+    private SecurityStaff security;
     private String email;
 
     public UserDetail() {
     }
 
-    public UserDetail(String userName, String userGender, String userBirth, String userAddress, String userPhone,String userMail, String userAvatar) {
+    public UserDetail(String userName, String userGender, String userBirth, String userAddress, String userPhone, String userMail, String userAvatar) {
         this.userName = userName;
         this.userGender = userGender;
         this.userBirth = userBirth;
@@ -36,9 +36,7 @@ public class UserDetail{
         this.userAvatar = userAvatar;
     }
 
-    
-    
-    public UserDetail(int userID, String userMail, String userPassword, int userRole, User user, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, Account account, Renter renter, Room room, Security security, String email) {
+    public UserDetail(int userID, String userMail, String userPassword, int userRole, User user, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, Account account, Renter renter, Room room, SecurityStaff security, String email) {
         this.userID = userID;
         this.userMail = userMail;
         this.userPassword = userPassword;
@@ -57,7 +55,7 @@ public class UserDetail{
         this.email = email;
     }
 
-    public UserDetail(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, String userMail, String userPassword, int userRole) {    
+    public UserDetail(int userID, String userName, String userGender, String userBirth, String userAddress, String userPhone, String userAvatar, String userMail, String userPassword, int userRole) {
         this.userName = userName;
         this.userGender = userGender;
         this.userBirth = userBirth;
@@ -69,8 +67,6 @@ public class UserDetail{
         this.userID = userID;
         this.userRole = userRole;
     }
-
-    
 
     public int getUserID() {
         return userID;
@@ -184,11 +180,11 @@ public class UserDetail{
         this.room = room;
     }
 
-    public Security getSecurity() {
+    public SecurityStaff getSecurity() {
         return security;
     }
 
-    public void setSecurity(Security security) {
+    public void setSecurity(SecurityStaff security) {
         this.security = security;
     }
 
@@ -199,8 +195,5 @@ public class UserDetail{
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
-    
-    
+
 }

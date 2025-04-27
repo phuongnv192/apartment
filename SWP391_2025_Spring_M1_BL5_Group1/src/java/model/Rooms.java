@@ -16,7 +16,8 @@ public class Rooms {
     private int roomStatus;
     private int roomOccupant;
     private String roomDepartment;
-    
+    private Department department;
+
     public Rooms(Item item, RoomItem roomitem) {
         this.item = item;
         this.roomitem = roomitem;
@@ -42,8 +43,7 @@ public class Rooms {
         this.roomImg = roomImg;
         this.total = total;
     }
-    
-    
+
     public Rooms(int roomID, int roomFloor, int roomNumber, int roomSize, String roomImg) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
@@ -51,17 +51,17 @@ public class Rooms {
         this.roomSize = roomSize;
         this.roomImg = roomImg;
     }
-    
+
     public Rooms(int roomID, int roomFloor, int roomNumber, int roomSize, BigDecimal roomFee, String roomImg, int roomOccupant) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
         this.roomNumber = roomNumber;
-        this.roomSize = roomSize;   
+        this.roomSize = roomSize;
         this.roomFee = roomFee;
         this.roomImg = roomImg;
         this.roomOccupant = roomOccupant;
     }
-    
+
     public Rooms() {
     }
 
@@ -160,11 +160,12 @@ public class Rooms {
     public void setRoomDepartment(String roomDepartment) {
         this.roomDepartment = roomDepartment;
     }
-    
-    
-    
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 }
-
-
-   

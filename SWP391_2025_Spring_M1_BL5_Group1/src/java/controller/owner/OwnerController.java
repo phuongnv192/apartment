@@ -1,15 +1,10 @@
 package controller.owner;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import dao.RenterDAO;
 
-import java.lang.reflect.Type;
 import dao.RoomDAO;
 import dao.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,8 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Vector;
 import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

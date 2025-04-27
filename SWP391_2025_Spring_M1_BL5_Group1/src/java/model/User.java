@@ -19,7 +19,7 @@ public class User {
     private Account account;
     private Renter renter;
     private Room room;
-    private Security security;
+    private SecurityStaff security;
     private String email; // tự thêm 
 
     public User() {
@@ -90,7 +90,7 @@ public class User {
         this.userAvatar = userAvatar;
     }
 
-    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String userAvatar, Account account, Security security) {
+    public User(int userID, String userName, String userGender, LocalDate userBirth, String userAddress, String userPhone, String userAvatar, Account account, SecurityStaff security) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
@@ -111,11 +111,11 @@ public class User {
         this.email = email;
     }
 
-    public Security getSecurity() {
+    public SecurityStaff getSecurity() {
         return security;
     }
 
-    public void setSecurity(Security security) {
+    public void setSecurity(SecurityStaff security) {
         this.security = security;
     }
 
