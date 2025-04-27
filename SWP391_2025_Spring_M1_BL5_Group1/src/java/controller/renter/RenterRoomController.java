@@ -80,7 +80,7 @@ public class RenterRoomController extends HttpServlet {
         request.setAttribute("rooms", rooms);
         request.setAttribute("allRooms", allRooms);
 
-        request.getRequestDispatcher("Renter/listRoom.jsp").forward(request, response);
+        request.getRequestDispatcher("renter/listRoom.jsp").forward(request, response);
     }
 
     private void roomDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,7 +90,7 @@ public class RenterRoomController extends HttpServlet {
         RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
         request.setAttribute("roomDetail", roomDetail);
         session.setAttribute("roomID", roomID);
-        request.getRequestDispatcher("Renter/roomDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("renter/roomDetail.jsp").forward(request, response);
     }
 
     private void rentRoom(HttpServletRequest request, HttpServletResponse response, int flag) throws ServletException, IOException {
@@ -108,7 +108,7 @@ public class RenterRoomController extends HttpServlet {
             int userID = basicUserDetail.getUserID();
             request.setAttribute("userID", userID);
             request.setAttribute("roomDetail", roomDetail);
-            request.getRequestDispatcher("Renter/confirmRentRoom.jsp").forward(request, response);
+            request.getRequestDispatcher("renter/confirmRentRoom.jsp").forward(request, response);
         } else if (flag == 1) {
             boolean unlockRoom = daoRenter.unlockRoom(roomID);
             request.getRequestDispatcher("RenterRoomController?service=listRoom&index=1").forward(request, response);
@@ -122,7 +122,7 @@ public class RenterRoomController extends HttpServlet {
         RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
         request.setAttribute("roomDetail", roomDetail);
         session.setAttribute("roomID", roomID);
-        request.getRequestDispatcher("Renter/confirmRentRoom.jsp").forward(request, response);
+        request.getRequestDispatcher("renter/confirmRentRoom.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

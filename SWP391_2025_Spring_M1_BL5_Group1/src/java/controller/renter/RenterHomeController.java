@@ -34,7 +34,7 @@ public class RenterHomeController extends HttpServlet {
             User user = dao.getUserByID(account.getUserID());
             String imgAvata = user.getUserAvatar();
             session.setAttribute("imgAvata", imgAvata);
-            request.getRequestDispatcher("Renter/RenterHome.jsp").forward(request, response);
+            request.getRequestDispatcher("renter/RenterHome.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");
         }

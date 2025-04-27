@@ -125,15 +125,15 @@
                             </div>
                         </a>
                     </div>
-<!--                    <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                        <a href="#" class="feature-link">
-                            <div class="box-feature">
-                                <span class="flaticon-house-1"></span>
-                                <h3 class="mb-3">Rule</h3>
-                                <p>Rule for new visitor</p>
-                            </div>
-                        </a>
-                    </div>-->
+                    <!--                    <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                                            <a href="#" class="feature-link">
+                                                <div class="box-feature">
+                                                    <span class="flaticon-house-1"></span>
+                                                    <h3 class="mb-3">Rule</h3>
+                                                    <p>Rule for new visitor</p>
+                                                </div>
+                                            </a>
+                                        </div>-->
                     <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
                         <a href="RenterRoomController?service=listRoom&index=1" class="feature-link">
                             <div class="box-feature">
@@ -232,13 +232,13 @@ Please don't remove this copyright link unless you buy the license here https://
         </div> <!-- /.site-footer -->
 
 
-        <!-- Preloader -->
+<!--         Preloader 
         <div id="overlayer"></div>
         <div class="loader">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-        </div>
+        </div>-->
 
 
         <script src="js/bootstrap.bundle.min.js"></script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="home-guest/favicon.png">
+    <link rel="shortcut icon" href="images/favicon.png">
     <title>New Password</title>
     <style>
         body {
@@ -82,7 +82,7 @@
         <div class="title-text">
             Enter your new password
         </div>
-        <form action="newPassword" method="POST">
+        <form action="new-password" method="POST">
             <div class="form-group">
                 <h4 class="text-password">New Password:</h4>
                 <input type="password" name="password" required>

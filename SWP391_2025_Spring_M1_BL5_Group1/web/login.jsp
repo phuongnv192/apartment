@@ -11,7 +11,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <style>
-            .error-message { color: #FF0E0E; font-size: 0.9em; margin-top: 5px; display: block; }
+            .error-message {
+                color: #FF0E0E;
+                font-size: 0.9em;
+                margin-top: 5px;
+                display: block;
+            }
         </style>
     </head>
     <body>
@@ -36,8 +41,12 @@
                         </div>
                         <br/>
                         <span class="details">
-                            Don't have an account?
+                            Don't have an account? 
                             <a href="register" style="text-decoration: none; font-weight: 600;">Register now</a>
+                        </span>
+                        <br/>
+                        <span class="details">
+                            <a href="forgot-password" style="text-decoration: none; font-weight: 600;">Forgot your password?</a>
                         </span>
                     </div>
                     <div class="button">
@@ -46,7 +55,7 @@
                     <input type="radio" name="yea" value="" />
                 </form>
 
-               
+
                 <div class="form1">
                     <div class="button">
                         <a href="GuestController"><input type="button" value="Back to Home"></a>
