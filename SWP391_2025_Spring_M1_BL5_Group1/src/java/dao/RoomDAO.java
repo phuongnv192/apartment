@@ -102,7 +102,7 @@ public class RoomDAO extends DBContext {
             ps.setInt(3, r.getRoomSize());
             ps.setDouble(4, r.getRoomFee().doubleValue());
             ps.setString(5, r.getRoomImg());
-            ps.setInt(1, ownerID);
+            ps.setInt(6, ownerID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return true;
