@@ -92,9 +92,9 @@ public class RoomDAO extends DBContext {
     }
 
     public boolean addRoom(Room r, int ownerID) {
-        String query = "INSERT INTO room (roomID, roomNumber, roomFloor, roomSize, roomFee, roomImg, ownerID)\n"
+        String query = "INSERT INTO room (roomID, roomNumber, roomFloor, roomSize, roomFee, roomImg, roomDepartment, ownerID)\n"
                 + "VALUES ((SELECT MAX(roomID) + 1 AS maxRoomID\n"
-                + "  FROM room), ?, ?, ?, ?, ?, ?);";
+                + "  FROM room), ?, ?, ?, ?, ?, 'A', ?);";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, r.getRoomNumber());
