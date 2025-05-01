@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import java.sql.Date;
 import model.Account;
 import model.User;
 
@@ -105,7 +104,7 @@ public class RegisterDAO extends DBContext {
             pre.setInt(1, userID);
             pre.setString(2, user.getUserName());
             pre.setString(3, user.getUserGender());
-            pre.setDate(4, Date.valueOf(user.getUserBirth()));
+            pre.setString(4, user.getUserBirth());
             pre.setString(5, user.getUserAddress());
             pre.setString(6, user.getUserPhone());
             pre.setString(7, user.getUserAvatar());

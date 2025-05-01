@@ -1,4 +1,4 @@
-package controller.admin;
+package controller.Admin;
 
 import dao.DAO;
 import java.io.IOException;

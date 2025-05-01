@@ -16,7 +16,7 @@ public class Rooms {
     private int roomStatus;
     private int roomOccupant;
     private String roomDepartment;
-    private Department department;
+        private int ownerID;
 
     public Rooms(Item item, RoomItem roomitem) {
         this.item = item;
@@ -43,7 +43,8 @@ public class Rooms {
         this.roomImg = roomImg;
         this.total = total;
     }
-
+    
+    
     public Rooms(int roomID, int roomFloor, int roomNumber, int roomSize, String roomImg) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
@@ -51,17 +52,32 @@ public class Rooms {
         this.roomSize = roomSize;
         this.roomImg = roomImg;
     }
-
+    
     public Rooms(int roomID, int roomFloor, int roomNumber, int roomSize, BigDecimal roomFee, String roomImg, int roomOccupant) {
         this.roomID = roomID;
         this.roomFloor = roomFloor;
         this.roomNumber = roomNumber;
-        this.roomSize = roomSize;
+        this.roomSize = roomSize;   
         this.roomFee = roomFee;
         this.roomImg = roomImg;
         this.roomOccupant = roomOccupant;
     }
-
+    
+     public Rooms(int roomID, int roomFloor, int roomNumber, int roomSize,
+                 String roomImg, BigDecimal roomFee, int roomStatus,
+                 int roomOccupant, String roomDepartment, int ownerID) {
+        this.roomID = roomID;
+        this.roomFloor = roomFloor;
+        this.roomNumber = roomNumber;
+        this.roomSize = roomSize;
+        this.roomImg = roomImg;
+        this.roomFee = roomFee;
+        this.roomStatus = roomStatus;
+        this.roomOccupant = roomOccupant;
+        this.roomDepartment = roomDepartment;
+        this.ownerID = ownerID;
+    }
+    
     public Rooms() {
     }
 
@@ -160,12 +176,12 @@ public class Rooms {
     public void setRoomDepartment(String roomDepartment) {
         this.roomDepartment = roomDepartment;
     }
+    
+    public int getOwnerID() { return ownerID; }
+    public void setOwnerID(int ownerID) { this.ownerID = ownerID; }
+    
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
 }
+
+
+   

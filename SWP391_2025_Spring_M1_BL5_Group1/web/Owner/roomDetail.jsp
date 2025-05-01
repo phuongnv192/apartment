@@ -2,9 +2,6 @@
 <%@page import="model.RoomDetailSe"%>
 <%@ page import="java.util.Base64" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% RoomDetailSe roomDetail = (RoomDetailSe) request.getAttribute("roomDetail"); 
    List<String> listNameRenter = (List<String>) request.getAttribute("listNameRenter");
@@ -62,7 +59,7 @@
             <div class="container">
                 <div class="menu-bg-wrap">
                     <div class="site-navigation">
-                        <a href="#" class="logo m-0 float-start">Room Detail</a>
+                        <a href="OwnerController?service=OwnerHome" class="logo m-0 float-start">Owner</a>
 
                         <jsp:include page = "navbar.jsp"></jsp:include>
 
@@ -104,24 +101,25 @@
                         <div class="col-lg-7">
                             <div class="img-property-slide-wrap">
                                 <div class="img-property-slide">
-                                    <img style="margin-top: 50px;" src="data:image/jpg;base64, ${roomDetail.roomImg}" alt="Image" class="img-fluid">
+                                <% String base64Image = roomDetail.getRoomImg(); %>
+
+                                <img style="margin-top: 50px;" src="data:image/jpg;base64, <%= base64Image %>" alt="Image" class="img-fluid">
 
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="d-block agent-box p-5">
-                            <h2 class="heading text-primary" style="font-weight: 700"> Room ${roomDetail.roomNumber}</h2>
-                            <p class="meta" style="color: #c90927; font-size: 18px; font-weight: 600">
-                                <fmt:formatNumber 
-                                    value="${roomDetail.roomFee}" 
-                                    type="number"
-                                    groupingUsed="true"
-                                    /> VND/Month</p>
+                            <h2 class="heading text-primary" style="font-weight: 700"> Room <%= roomDetail.getRoomNumber()%></h2>
+                            <%
+                               DecimalFormat df = new DecimalFormat("#,###");
+                               String formattedFee = df.format(roomDetail.getRoomFee() * 1000);
+                            %>
+                            <p class="meta" style="color: #c90927; font-size: 18px; font-weight: 600"><%= formattedFee %> VND/Month</p>
                             <label class="textDetail" style="font-size: 20px; font-weight: 500">Detailed description</label>
-                            <p class="textDetail">Area: 22mÂ²</p>
-                            <p class="textDetail">Room Floor: ${roomDetail.roomFloor}</p>
-                            <p class="textDetail">Room Size: ${roomDetail.roomSize}</p>
+                            <p class="textDetail">Area: 22m²</p>
+                            <p class="textDetail">Room Floor: <%= roomDetail.getRoomFloor()%></p>
+                            <p class="textDetail">Room Size: <%= roomDetail.getRoomSize()%></p>
                             <p class="textDetail">Facilities: There is air conditioning, private toilet, comfortable living hours</p>
                             <p class="textDetail">In the room are available: </p>
                             <% 
@@ -139,16 +137,15 @@
                                 }
                             %>
                             <p class="textDetail">Address: Thon 3, Tan Xa, Thach That, Ha Noi</p>
-                            <p class="textDetail">Contact Info: 0123456789</p>  
-                            <c:forEach var="renterName" items="${listNameRenter}">
-                                <p class="textDetail">Renter: 
-                                    <a style="color: blue;" href="#"> ${renterName} </a> 
-                                </p>
-                                <br>
-                            </c:forEach>
+                            <p class="textDetail">Contact Info: 0123456789</p>                            
+                            <% for (String renterName : listNameRenter) { %>
+                            <p class="textDetail">Renter: 
+                            <a style="color: blue;" href="#"> <%= renterName %> </a> 
+                            </p> <br>
+                            <%}%> 
                             <div class="row" style="margin-top: 20px">
                                 <div class="col-sm-12">
-                                    <a class="btn btn-info " href="OwnerController?service=editRoom&roomID=${roomDetail.roomID}">Edit Room</a>
+                                    <a class="btn btn-info " href="OwnerController?service=editRoom&roomID=<%= roomDetail.getRoomID()%>">Edit Room</a>
                                 </div>
                             </div>
                         </div>

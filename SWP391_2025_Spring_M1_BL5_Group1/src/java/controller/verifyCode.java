@@ -15,7 +15,6 @@ import model.User;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.time.LocalDate;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,10 +32,10 @@ public class verifyCode extends HttpServlet {
         String phone = (String) session.getAttribute("phone");
         String username = (String) session.getAttribute("username");
         String gender = (String) session.getAttribute("gender");
-        LocalDate dob = (LocalDate) session.getAttribute("dob");
+        String dob = (String) session.getAttribute("dob");
         String password = (String) session.getAttribute("password");
         String address = (String) session.getAttribute("address");
-        int role = (int) session.getAttribute("role");
+        String role = (String) session.getAttribute("role");
         RegisterDAO dao = new RegisterDAO();
 
         Path defaultImg = Paths.get("images/default.jpg");
@@ -55,8 +54,8 @@ public class verifyCode extends HttpServlet {
                 request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
             } else if (authCode.equals(code)) {
                 // Xác định userRole dựa trên role
-//                int userRole = role.equals("renter") ? 1 : 2; // 1 cho renter, 2 cho owner
-                int addAccount = dao.addAccount(new Account(email, password, role));
+                int userRole = role.equals("renter") ? 1 : 2; // 1 cho renter, 2 cho owner
+                int addAccount = dao.addAccount(new Account(email, password, userRole));
                 int addUser = dao.addUser(new User(addAccount, username, gender, dob,
                         address, phone, userAvatar), addAccount);
                 session.removeAttribute("authCode");

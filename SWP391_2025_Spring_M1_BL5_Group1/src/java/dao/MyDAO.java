@@ -3,14 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dao;
-
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MyDAO extends DBContext implements AutoCloseable {
 
+
+public class MyDAO extends DBContext implements AutoCloseable {
     public Connection con = null;
     public PreparedStatement ps = null;
     public ResultSet rs = null;

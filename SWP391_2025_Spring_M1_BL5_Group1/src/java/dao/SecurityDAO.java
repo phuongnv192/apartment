@@ -4,7 +4,6 @@
  */
 package dao;
 
-import Models.SeUserProfile;
 import model.RenterPenChart;
 import model.RoomItem;
 import java.util.ArrayList;
@@ -79,56 +78,57 @@ public class SecurityDAO extends DBContext {
         }
     }
 
-    public List<SeUserProfile> showProfile(int id) {
-    List<SeUserProfile> show = new ArrayList<>();
-    String sql = "SELECT \n" +
-                    "  i.seID,\n" +
-                    "  i.userID,\n" +
-                    "  i.seID,\n" +
-                    "  j.userName,\n" +
-                    "  j.userGender,\n" +
-                    "  j.userBirth,\n" +
-                    "  j.userAddress,\n" +
-                    "  j.userPhone,\n" +
-                    "  j.userAvatar,\n" +
-                    "  k.userMail,\n" +
-                    "  i.sShift,\n" +
-                    "  i.seStatus\n" +
-                    "FROM security i\n" +
-                    "  JOIN [user] j ON i.userID = j.userID\n" +
-                    "  join [account] k on i.userID = k.userID\n" +
-                    "  where i.userID = ?;";
-
-    try {
-        java.sql.Connection conn = connection;
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id); // set the userID parameter
-        
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            SeUserProfile profile = new SeUserProfile();
-            
-            profile.setSeID(rs.getInt("seID"));
-            profile.setUserName(rs.getString("userName"));
-            profile.setUserGender(rs.getString("userGender"));
-            profile.setUserBirth(rs.getDate("userBirth"));
-            profile.setUserAddress(rs.getString("userAddress"));
-            profile.setUserPhone(rs.getString("userPhone"));
-            profile.setUserAvatar(rs.getString("userAvatar"));
-            profile.setUserMail(rs.getString("userMail"));
-            profile.setxShift(rs.getInt("sShift"));
-            profile.setSeStatus(rs.getBoolean("seStatus"));
-
-            show.add(profile);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return show;
-    }
-    public SeUserProfile selectUpdateByAccount(String name,String pass){
-        
-        return null;
-    }
+//    public List<SeUserProfile> showProfile(String seID) {
+//    List<SeUserProfile> show = new ArrayList<>();
+//    String sql = "SELECT \n" +
+//                    "  i.seID,\n" +
+//                    "  i.userID,\n" +
+//                    "  i.seID,\n" +
+//                    "  j.userName,\n" +
+//                    "  j.userGender,\n" +
+//                    "  j.userBirth,\n" +
+//                    "  j.userAddress,\n" +
+//                    "  j.userPhone,\n" +
+//                    "  j.userAvatar,\n" +
+//                    "  k.userMail,\n" +
+//                    "  i.sShift,\n" +
+//                    "  i.seStatus\n" +
+//                    "FROM \n" +
+//                    "  HL_Motel.dbo.security i\n" +
+//                    "  JOIN HL_Motel.dbo.[user] j ON i.userID = j.userID\n" +
+//                    "  join HL_Motel.dbo.[account] k on i.userID = k.userID\n" +
+//                    "  where i.seID = ?;";
+//
+//    try {
+//        java.sql.Connection conn = connection;
+//        PreparedStatement ps = conn.prepareStatement(sql);
+//        ps.setString(1, seID); // set the userID parameter
+//        
+//        ResultSet rs = ps.executeQuery();
+//
+//        while (rs.next()) {
+//            SeUserProfile profile = new SeUserProfile();
+//            
+//            profile.setSeID(rs.getInt("seID"));
+//            profile.setUserName(rs.getString("userName"));
+//            profile.setUserGender(rs.getString("userGender"));
+//            profile.setUserBirth(rs.getDate("userBirth"));
+//            profile.setUserAddress(rs.getString("userAddress"));
+//            profile.setUserPhone(rs.getString("userPhone"));
+//            profile.setUserAvatar(rs.getString("userAvatar"));
+//            profile.setUserMail(rs.getString("userMail"));
+//            profile.setxShift(rs.getInt("sShift"));
+//            profile.setSeStatus(rs.getBoolean("seStatus"));
+//
+//            show.add(profile);
+//        }
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//    return show;
+//    }
+//    public SeUserProfile selectUpdateByAccount(String name,String pass){
+//        
+//        return null;
+//    }
 }

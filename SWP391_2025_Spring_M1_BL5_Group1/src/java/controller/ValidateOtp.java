@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -11,25 +14,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/confirm-otp")
+@WebServlet("/ValidateOtp")
 public class ValidateOtp extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("confirm-otp.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String value = request.getParameter("otp");
+        HttpSession mySession = request.getSession();
+        String otp = (String) mySession.getAttribute("otp");
         Cookie[] cookies = request.getCookies();
         String otpR = "";
         for (Cookie cooky : cookies) {
-            if (cooky.getName().equals("otpR")) {
+            if(cooky.getName().equals("otpR")){
                 otpR = cooky.getValue();
                 break;
             }
@@ -38,11 +35,13 @@ public class ValidateOtp extends HttpServlet {
 
         if (value.equals(otpR)) {
             request.setAttribute("email", request.getParameter("email"));
-            request.getSession().setAttribute("forgotPwd", true);
-            response.sendRedirect(request.getContextPath() + "/new-password");
+            dispatcher = request.getRequestDispatcher("newPassword.jsp");
+            dispatcher.forward(request, response);
+
         } else {
-            request.setAttribute("message", "OTP wrong or expired.");
-            dispatcher = request.getRequestDispatcher("confirm-otp.jsp");
+            request.setAttribute("message", "wrong otp");
+
+            dispatcher = request.getRequestDispatcher("enterotp.jsp");
             dispatcher.forward(request, response);
         }
     }

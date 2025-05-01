@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.security;
+package controller.Security;
 
 import dao.RoomDAO;
 import dao.RuleDAO;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author Admin
  */
 @WebServlet(name="importServlet", urlPatterns={"/import"})
-public class ImportServlet extends HttpServlet {
+public class importServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

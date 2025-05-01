@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.renter;
+package controller.Renter;
 
 import dao.RenterDAO;
 import dao.PenaltyDao;

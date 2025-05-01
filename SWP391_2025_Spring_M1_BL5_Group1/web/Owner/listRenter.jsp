@@ -257,7 +257,7 @@
             <div class="container">
                 <div class="menu-bg-wrap">
                     <div class="site-navigation">
-                        <a href="#" class="logo m-0 float-start">Room</a>
+                        <a href="OwnerController?service=OwnerHome" class="logo m-0 float-start">Owner</a>
 
                         <jsp:include page = "navbar.jsp"></jsp:include>
 
@@ -274,7 +274,7 @@
                 <div class="container">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-lg-9 text-center mt-5">
-                            <h1 class="heading" data-aos="fade-up">List of Renter</h1>
+                            <h1 class="heading" data-aos="fade-up">List of Renters</h1>
 
                             <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
                                 <ol class="breadcrumb text-center justify-content-center">

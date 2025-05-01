@@ -1,4 +1,4 @@
-package controller.renter;
+package controller.Renter;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -35,7 +35,7 @@ public class RenterController extends HttpServlet {
         // Check if the user is a renter
         if (email == null || password == null || !isUserRenter(email, password)) {
             LOGGER.warning("User is not a renter or not logged in.");
-            response.sendRedirect("login");
+            response.sendRedirect("login.jsp");
             return;
         }
 

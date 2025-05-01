@@ -13,38 +13,20 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class AccountDAO extends MyDAO {
 
-    public List<Account> getAccounts() {
-        List<Account> accounts = new ArrayList<>();
-
-        try {
-            // Truy vấn dữ liệu từ bảng Accounts
-            String query = "SELECT *  FROM [HL_Motel].[dbo].[account]";
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                int ID = resultSet.getInt("userID");
-                String mail = resultSet.getString("userMail");
-                String password = resultSet.getString("userPassword");
-                int role = resultSet.getInt("userRole");
-
-                // Tạo đối tượng Account và thêm vào danh sách
-                Account acc = new Account(ID, mail, password, role);
-                accounts.add(acc);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Fail: " + ex.getMessage());
-        }
-
-        return accounts;
-    }
-
+    //Table - Account
+    /*
+    1.userID - int
+    2.userMail - String
+    3.userPassword - String
+    4.userRole - int
+     */
     //List Account by userId
     public Account getAccount(int id) {
         Account account = new Account();
-        String statement = "select * from [Account] WHERE ";
+        String statement = "select * from [Account]";
         try {
             ps = con.prepareStatement(statement);
             ps.setInt(1, id);
@@ -113,24 +95,6 @@ public class AccountDAO extends MyDAO {
             System.out.println("Fail: " + e.getMessage());
         }
         return 0;
-    }
-
-    public boolean isExistEmail(String mail) {
-        String sql = "SELECT * \n"
-                + "FROM [account]\n"
-                + "WHERE [userMail]  = ?";
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setString(1, mail);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            System.out.println("Fail: " + e.getMessage());
-        }
-        return false;
     }
 
     /////////////////////Hung dog code
@@ -219,7 +183,7 @@ public class AccountDAO extends MyDAO {
         }
         return null;
     }
-
+    
     public int getUserIdByEmail(String email) {
         int userID = 0;
         try {
@@ -230,7 +194,7 @@ public class AccountDAO extends MyDAO {
             ps.setString(1, email);
             rs = ps.executeQuery();
             if (rs.next()) {
-                userID = rs.getInt("userID");
+              userID = rs.getInt("userID");
             }
 
         } catch (SQLException ex) {
@@ -240,7 +204,7 @@ public class AccountDAO extends MyDAO {
     }
 
     public void changep(Account a) {
-        String sql = "UPDATE [account] set userPassword = ? where userMail = ?";
+        String sql = "UPDATE [dbo].[account] set userPassword = ? where userMail = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, a.getUserPassword());
@@ -287,7 +251,7 @@ public class AccountDAO extends MyDAO {
         }
         return null;
     }
-
+   
     public void updatePassword(Account a) {
         String sql = "UPDATE Account SET [userPassword] = ? WHERE userID = ?";
         try {
@@ -301,10 +265,9 @@ public class AccountDAO extends MyDAO {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        int userID = dao.getUserIdByEmail("maingoctu@gmail.com");
-        System.out.println(userID);
+        int userID = dao.getUserIdByEmail("huyphqhe170146@fpt.edu.vn");
+            System.out.println(userID);
     }
 }

@@ -90,7 +90,7 @@
             <div class="container">
                 <div class="menu-bg-wrap">
                     <div class="site-navigation">
-                        <a href="OwnerHome.jsp" class="logo m-0 float-start">Room</a>
+                        <a href="OwnerController?service=OwnerHome" class="logo m-0 float-start">Owner</a>
 
                         <jsp:include page = "navbar.jsp"></jsp:include>
 
@@ -135,7 +135,8 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label>Address</label>
+                                <label>Permanent Address
+</label>
                                 <input type="text" class="form-control" value="<%= renterProfile.getUserAddress() %>" placeholder="Address" readonly="">
                             </div>                            
                         </div>

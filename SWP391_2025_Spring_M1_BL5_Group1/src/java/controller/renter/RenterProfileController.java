@@ -1,4 +1,4 @@
-package controller.renter;
+package controller.Renter;
 
 import model.Account;
 import model.UserDetail;
@@ -107,11 +107,11 @@ public class RenterProfileController extends HttpServlet {
                 request.getRequestDispatcher("Renter/RenterProfile.jsp").forward(request, response);
             } else {
                 // If no user detail is found, redirect to login page
-                response.sendRedirect("login");
+                response.sendRedirect("login.jsp");
             }
         } else {
             // If email or password is not found in the session, redirect the user to the login page
-            response.sendRedirect("login");
+            response.sendRedirect("login.jsp");
         }
     }
 

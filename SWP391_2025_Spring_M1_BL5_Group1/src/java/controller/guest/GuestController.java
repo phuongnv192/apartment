@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.guest;
+package controller.Guest;
 
 import dao.RoomDAO;
+import dao.SliderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.RoomDetail;
+import model.RoomDetailSe;
 import model.Rooms;
 import model.Slider;
 import model.UserDetail;
@@ -59,8 +60,11 @@ public class GuestController extends HttpServlet {
 
     private void GuestHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
+        SliderDAO daol = new SliderDAO();
         List<Rooms> listRoom = dao.pagingRoom(1, 0);
+        List<Slider> sliders = daol.getAllSlider();
         request.setAttribute("listRoom", listRoom);
+        request.setAttribute("slider", sliders);
         request.getRequestDispatcher("Guest/GuestHome.jsp").forward(request, response);
     }
 
@@ -91,7 +95,7 @@ public class GuestController extends HttpServlet {
         RoomDAO dao = new RoomDAO();
 
         int roomID = Integer.parseInt(request.getParameter("roomID"));
-        RoomDetail roomDetail = dao.getRoomDetail(roomID);
+        RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
         request.setAttribute("roomDetail", roomDetail);
         request.getRequestDispatcher("Guest/RoomDetail.jsp").forward(request, response);
     }

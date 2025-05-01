@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.renter;
+package controller.Renter;
 
 import dao.RenterDAO;
 import dao.RoomDAO;
@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.RoomDetail;
+import model.RoomDetailSe;
 import model.Rooms;
 import model.UserDetail;
 
@@ -87,7 +87,7 @@ public class RenterRoomController extends HttpServlet {
         RoomDAO dao = new RoomDAO();
         HttpSession session = request.getSession();
         int roomID = Integer.parseInt(request.getParameter("roomID"));
-        RoomDetail roomDetail = dao.getRoomDetail(roomID);
+        RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
         request.setAttribute("roomDetail", roomDetail);
         session.setAttribute("roomID", roomID);
         request.getRequestDispatcher("Renter/roomDetail.jsp").forward(request, response);
@@ -103,7 +103,7 @@ public class RenterRoomController extends HttpServlet {
 
         if (flag == 0) {
             boolean lockRoom = daoRenter.lockRoom(roomID);
-            RoomDetail roomDetail = daoRoom.getRoomDetail(roomID);
+            RoomDetailSe roomDetail = daoRoom.getRoomDetail(roomID);
             UserDetail basicUserDetail = daoRenter.RenterBasicDetail(email, password);
             int userID = basicUserDetail.getUserID();
             request.setAttribute("userID", userID);
@@ -119,7 +119,7 @@ public class RenterRoomController extends HttpServlet {
         RoomDAO dao = new RoomDAO();
         HttpSession session = request.getSession();
         int roomID = Integer.parseInt(request.getParameter("roomID"));
-        RoomDetail roomDetail = dao.getRoomDetail(roomID);
+        RoomDetailSe roomDetail = dao.getRoomDetail(roomID);
         request.setAttribute("roomDetail", roomDetail);
         session.setAttribute("roomID", roomID);
         request.getRequestDispatcher("Renter/confirmRentRoom.jsp").forward(request, response);

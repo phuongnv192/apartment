@@ -25,7 +25,7 @@ public class RuleDAO extends DBContext {
                             "      ,[ruleName]\n" +
                             "      ,[img]\n" +
                             "      ,[penMoney]\n" +
-                            "  FROM [rule]";
+                            "  FROM [HL_Motel].[dbo].[rule]";
         try {
             java.sql.Connection conn = connection;
             PreparedStatement ps = conn.prepareStatement(sql);

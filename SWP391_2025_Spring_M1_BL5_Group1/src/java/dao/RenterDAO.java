@@ -18,9 +18,8 @@ import model.UserDetail;
 import model.Renter;
 import model.RenterList;
 import java.sql.CallableStatement;
-import java.sql.Date;
-import java.time.LocalDate;
 import model.RentDetail;
+
 
 public class RenterDAO extends MyDAO {
 
@@ -54,7 +53,7 @@ public class RenterDAO extends MyDAO {
                     int userID = rs.getInt(1);
                     String userName = rs.getString(2);
                     String userGender = rs.getString(3);
-                    LocalDate userBirth = rs.getDate(4).toLocalDate();
+                    String userBirth = rs.getString(4);
                     String userAddress = rs.getString(5);
                     String userPhone = rs.getString(6);
                     String userAvatar = rs.getString(7);
@@ -81,8 +80,9 @@ public class RenterDAO extends MyDAO {
         }
         return list;
     }
-
+    
     // ve sua lai
+    
     public List<Renter> getRenterDetail(String accountInput, String passwordInput) {
         List<Renter> list = new ArrayList<>();
         String sql = "SELECT DISTINCT "
@@ -109,7 +109,7 @@ public class RenterDAO extends MyDAO {
                     int userID = rs.getInt(1);
                     String userName = rs.getString(2);
                     String userGender = rs.getString(3);
-                    LocalDate userBirth = rs.getDate(4).toLocalDate();
+                    String userBirth = rs.getString(4);
                     String userAddress = rs.getString(5);
                     String userPhone = rs.getString(6);
                     String userAvatar = rs.getString(7);
@@ -256,7 +256,7 @@ public class RenterDAO extends MyDAO {
                         rs.getInt("userID"),
                         rs.getString("userName"),
                         rs.getString("userGender"),
-                        rs.getDate("userBirth").toLocalDate(),
+                        rs.getString("userBirth"),
                         rs.getString("userAddress"),
                         rs.getString("userPhone"),
                         rs.getString("userAvatar")
@@ -279,7 +279,7 @@ public class RenterDAO extends MyDAO {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, u.getUserName());
             st.setString(2, u.getUserGender());
-            st.setDate(3, Date.valueOf(u.getUserBirth()));
+            st.setString(3, u.getUserBirth());
             st.setString(4, u.getUserAddress());
             st.setString(5, u.getUserPhone());
             st.setString(6, u.getUserAvatar());
@@ -328,6 +328,8 @@ public class RenterDAO extends MyDAO {
         }
         return userDetail;
     }
+    
+    
 
     //ThienAnh RenterDAO
     public List<RenterList> getRenters() {
@@ -377,8 +379,8 @@ public class RenterDAO extends MyDAO {
                 int roomFloor = rs.getInt("roomFloor");
                 double balance = rs.getDouble("balance");
                 int userID = rs.getInt("userID");
-
-                RenterList renterList = new RenterList(roomID, userName, balance,
+                
+                RenterList renterList = new RenterList(roomID, userName, balance, 
                         roomNumber, roomFloor, userID);
                 renters.add(renterList);
             }
@@ -480,7 +482,7 @@ public class RenterDAO extends MyDAO {
         }
         return n;
     }
-
+    
     public List<RentDetail> rentDetail(int renterID) {
         List<RentDetail> rentDetails = new ArrayList<>();
         String sql = "SELECT "
@@ -519,48 +521,88 @@ public class RenterDAO extends MyDAO {
         }
         return rentDetails;
     }
-
-    public List<RenterList> getAllRentersExcel() {
-        List<RenterList> renters = new ArrayList<>();
-        String sql = "SELECT u.userName, r.roomNumber, r.roomFloor, r.roomDepartment\n"
-                + "FROM renter rt\n"
-                + "JOIN room r ON rt.roomID = r.roomID\n"
-                + "JOIN [user] u ON rt.userID = u.userID";
-
-        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
+    
+        public List<RenterList> getRentersByOwnerID(int ownerID) {
+    List<RenterList> renters = new ArrayList<>();
+    String sql = ""
+      + "SELECT r.roomID"                       // thêm dòng này
+      + "     , u.userName"
+      + "     , r.roomNumber"
+      + "     , r.roomFloor"
+      + "     , r.roomDepartment"
+      + "     , rt.balance"
+      + "     , u.userID"
+      + "  FROM renter rt"
+      + "  JOIN room   r  ON rt.roomID  = r.roomID"
+      + "  JOIN [user] u  ON rt.userID  = u.userID"
+      + " WHERE r.ownerID = ?"
+      + "   AND rt.renterHaveRoom = 1";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, ownerID);
+        try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                String userName = rs.getString("userName");
-                int roomNumber = rs.getInt("roomNumber");
-                int roomFloor = rs.getInt("roomFloor");
-                String department = rs.getString("roomDepartment");
-
-                // Adjust the constructor call to match the data selected
-                RenterList renterList = new RenterList(userName, roomNumber, roomFloor, department);
-                renters.add(renterList);
+                RenterList row = new RenterList();
+                row.setRoomID      (rs.getInt   ("roomID"));       // <-- set roomID
+                row.setUserName    (rs.getString("userName"));
+                row.setRoomNumber  (rs.getInt   ("roomNumber"));
+                row.setRoomFloor   (rs.getInt   ("roomFloor"));
+                row.setDepartment  (rs.getString("roomDepartment"));
+                row.setBalance     (rs.getDouble("balance"));
+                row.setUserID      (rs.getInt   ("userID"));
+                renters.add(row);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return renters;
+}
 
-        return renters;
+    
+    public List<RenterList> getAllRentersExcel() {
+    List<RenterList> renters = new ArrayList<>();
+    String sql = "SELECT u.userName, r.roomNumber, r.roomFloor, r.roomDepartment\n" +
+                 "FROM renter rt\n" +
+                 "JOIN room r ON rt.roomID = r.roomID\n" +
+                 "JOIN [user] u ON rt.userID = u.userID";
+
+    try (Connection conn = connection; 
+         PreparedStatement ps = conn.prepareStatement(sql); 
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            String userName = rs.getString("userName");
+            int roomNumber = rs.getInt("roomNumber");
+            int roomFloor = rs.getInt("roomFloor");
+            String department = rs.getString("roomDepartment");
+
+            // Adjust the constructor call to match the data selected
+            RenterList renterList = new RenterList(userName, roomNumber, roomFloor, department);
+            renters.add(renterList);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
 
-    public static void main(String[] args) {
-        // Create an instance of RenterDAO
-        RenterDAO dao = new RenterDAO();
+    return renters;
+}
 
-        // Fetch the list of renters
-        List<RenterList> renterLists = dao.getAllRentersExcel();
-
-        // Print the details of each RenterList object
-        for (RenterList renterList : renterLists) {
-            System.out.println("Renter Name: " + renterList.getUserName());
-            System.out.println("Room Number: " + renterList.getRoomNumber());
-            System.out.println("Room Floor: " + renterList.getRoomFloor());
-            System.out.println("Room Department" + renterList.getDepartment());
-            System.out.println("----------"); // Separator for readability
-        }
+     public static void main(String[] args) {
+    // Create an instance of RenterDAO
+    RenterDAO dao = new RenterDAO();
+    
+    // Fetch the list of renters
+    List<RenterList> renterLists = dao.getAllRentersExcel();
+    
+    // Print the details of each RenterList object
+    for (RenterList renterList : renterLists) {
+        System.out.println("Renter Name: " + renterList.getUserName());
+        System.out.println("Room Number: " + renterList.getRoomNumber());
+        System.out.println("Room Floor: " + renterList.getRoomFloor());
+        System.out.println("Room Department" +renterList.getDepartment());
+        System.out.println("----------"); // Separator for readability
     }
+}
+     
 
 }

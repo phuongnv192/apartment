@@ -1,22 +1,25 @@
 package dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import model.Rooms;
+import java.lang.System.Logger;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
-import model.RoomDetail;
+import java.util.Vector;
+import model.RoomDetailSe;
 import model.User;
 import model.*;
 
 public class RoomDAO extends DBContext {
-
-    private DepartmentDAO departmentDAO = new DepartmentDAO();
 
     public List<Rooms> getRooms() {
         List<Rooms> rooms = new ArrayList<>();
@@ -33,18 +36,15 @@ public class RoomDAO extends DBContext {
                 int roomStatus = rs.getInt("roomStatus");
                 int roomOccupant = rs.getInt("roomOccupant");
                 String rooomDepartment = rs.getString("roomDepartment");
-                Department dept = departmentDAO.findById(rs.getInt("deptID"));
+
                 Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, rooomDepartment);
-                if (dept != null) {
-                    room.setDepartment(dept);
-                }
                 rooms.add(room);
             }
         } catch (SQLException e) {
         }
         return rooms;
     }
-
+    
     public List<Rooms> getRoomsAvailable() {
         List<Rooms> rooms = new ArrayList<>();
         String query = "SELECT * FROM room where roomStatus = 1";
@@ -60,12 +60,8 @@ public class RoomDAO extends DBContext {
                 int roomStatus = rs.getInt("roomStatus");
                 int roomOccupant = rs.getInt("roomOccupant");
                 String rooomDepartment = rs.getString("roomDepartment");
-                Department dept = departmentDAO.findById(rs.getInt("deptID"));
 
                 Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, rooomDepartment);
-                if (dept != null) {
-                    room.setDepartment(dept);
-                }
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -85,12 +81,8 @@ public class RoomDAO extends DBContext {
                 int roomNumber = rs.getInt("roomNumber");
                 int roomSize = rs.getInt("roomSize");
                 String roomImg = rs.getString("roomImg");
-                Department dept = departmentDAO.findById(rs.getInt("deptID"));
 
                 Room room = new Room(roomID, roomFloor, roomNumber, roomSize, roomImg, 0);
-                if (dept != null) {
-                    room.setDepartment(dept);
-                }
                 return room;
             }
         } catch (SQLException e) {
@@ -126,108 +118,8 @@ public class RoomDAO extends DBContext {
                 int roomStatus = rs.getInt("roomStatus");
                 int roomOccupant = rs.getInt("roomOccupant");
                 String roomDepartment = rs.getString("roomDepartment");
-                Department dept = departmentDAO.findById(rs.getInt("deptID"));
 
                 Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, roomDepartment);
-                if (dept != null) {
-                    room.setDepartment(dept);
-                }
-                rooms.add(room);
-            }
-        } catch (SQLException e) {
-        }
-        return rooms;
-    }
-
-    public List<Rooms> pagingRoomOwner(int index, int ownerID) {
-        List<Rooms> rooms = new ArrayList<>();
-        String query = null;
-        query = "SELECT roomID\n"
-                + "	 , roomFloor\n"
-                + "	 , roomNumber\n"
-                + "	 , roomSize\n"
-                + "	 , roomFee\n"
-                + "	 , roomImg\n"
-                + "	 , roomStatus\n"
-                + "	 , roomOccupant\n"
-                + "	 , roomDepartment\n"
-                + "	 , r.deptID\n"
-                + "  FROM room r\n"
-                + "	       JOIN department d\n"
-                + "	       ON r.deptID = d.deptID\n"
-                + "	       JOIN account a\n"
-                + "	       ON d.ownerID = a.userID\n"
-                + "  WHERE  ownerID = ?\n"
-                + " ORDER BY roomID\n"
-                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
-        try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, ownerID);
-            ps.setInt(2, (index - 1) * 6);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int roomID = rs.getInt("roomID");
-                int roomFloor = rs.getInt("roomFloor");
-                int roomNumber = rs.getInt("roomNumber");
-                int roomSize = rs.getInt("roomSize");
-                BigDecimal roomFee = rs.getBigDecimal("roomFee");
-                String roomImg = rs.getString("roomImg");
-                int roomStatus = rs.getInt("roomStatus");
-                int roomOccupant = rs.getInt("roomOccupant");
-                String roomDepartment = rs.getString("roomDepartment");
-                Department dept = departmentDAO.findById(rs.getInt("deptID"));
-
-                Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, roomDepartment);
-                if (dept != null) {
-                    room.setDepartment(dept);
-                }
-                rooms.add(room);
-            }
-        } catch (SQLException e) {
-        }
-        return rooms;
-    }
-    
-    public List<Rooms> getRoomByOwner(int ownerID) {
-        List<Rooms> rooms = new ArrayList<>();
-        String query = null;
-        query = "SELECT roomID\n"
-                + "	 , roomFloor\n"
-                + "	 , roomNumber\n"
-                + "	 , roomSize\n"
-                + "	 , roomFee\n"
-                + "	 , roomImg\n"
-                + "	 , roomStatus\n"
-                + "	 , roomOccupant\n"
-                + "	 , roomDepartment\n"
-                + "	 , r.deptID\n"
-                + "  FROM room r\n"
-                + "	       JOIN department d\n"
-                + "	       ON r.deptID = d.deptID\n"
-                + "	       JOIN account a\n"
-                + "	       ON d.ownerID = a.userID\n"
-                + "  WHERE  ownerID = ?\n"
-                + " ORDER BY roomID";
-        try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, ownerID);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int roomID = rs.getInt("roomID");
-                int roomFloor = rs.getInt("roomFloor");
-                int roomNumber = rs.getInt("roomNumber");
-                int roomSize = rs.getInt("roomSize");
-                BigDecimal roomFee = rs.getBigDecimal("roomFee");
-                String roomImg = rs.getString("roomImg");
-                int roomStatus = rs.getInt("roomStatus");
-                int roomOccupant = rs.getInt("roomOccupant");
-                String roomDepartment = rs.getString("roomDepartment");
-                Department dept = departmentDAO.findById(rs.getInt("deptID"));
-
-                Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, roomDepartment);
-                if (dept != null) {
-                    room.setDepartment(dept);
-                }
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -272,7 +164,7 @@ public class RoomDAO extends DBContext {
                 updatePs.setInt(1, roomID);
                 result += updatePs.executeUpdate();
             }
-
+            
             try (PreparedStatement updateStatusPs = connection.prepareStatement(updateRoomStatusQuery)) {
                 updateStatusPs.setInt(1, roomID);
                 result += updateStatusPs.executeUpdate();
@@ -344,7 +236,7 @@ public class RoomDAO extends DBContext {
             if (rs.next()) {
                 String userName = rs.getString("userName");
                 String userGender = rs.getString("userGender");
-                LocalDate userBirth = rs.getDate("userBirth").toLocalDate();
+                String userBirth = rs.getString("userBirth");
                 String userAddress = rs.getString("userAddress");
                 String userPhone = rs.getString("userPhone");
                 String email = rs.getString("userMail");
@@ -371,7 +263,7 @@ public class RoomDAO extends DBContext {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, ownerProfile.getUserName());
             pre.setString(2, ownerProfile.getUserGender());
-            pre.setDate(3, Date.valueOf(ownerProfile.getUserBirth()));
+            pre.setString(3, ownerProfile.getUserBirth());
             pre.setString(4, ownerProfile.getUserAddress());
             pre.setString(5, ownerProfile.getUserPhone());
             pre.setInt(6, ownerProfile.getUserID());
@@ -399,7 +291,7 @@ public class RoomDAO extends DBContext {
         return n;
     }
 
-    public RoomDetail getRoomDetail(int roomid) {
+    public RoomDetailSe getRoomDetail(int roomid) {
         String query = "select r.roomID, r.roomFloor, r.roomNumber, r.roomSize, r.roomFee, r.roomImg, \n"
                 + "i.itemName, i.itemImg, ri.quantity, ri.itemID, r.roomOccupant, r.roomStatus\n"
                 + "from room r\n"
@@ -407,7 +299,7 @@ public class RoomDAO extends DBContext {
                 + "left join item i on ri.itemID = i.itemID \n"
                 + "where r.roomID = ?";
 
-        RoomDetail roomDetail = null;
+        RoomDetailSe roomDetail = null;
         List<String> itemNames = new ArrayList<>();
         List<Integer> quantities = new ArrayList<>();
         List<Integer> itemIDs = new ArrayList<>();
@@ -426,7 +318,7 @@ public class RoomDAO extends DBContext {
                         String roomImg = rs.getString("roomImg");
                         int roomOccupant = rs.getInt("roomOccupant");
                         int roomStatus = rs.getInt("roomStatus");
-                        roomDetail = new RoomDetail(roomID, roomNumber, roomSize, roomFloor,
+                        roomDetail = new RoomDetailSe(roomID, roomNumber, roomSize, roomFloor,
                                 roomImg, null, null, null, roomFee, null, roomOccupant, roomStatus);
                         roomDetailSet = true;
                     }
@@ -577,7 +469,7 @@ public class RoomDAO extends DBContext {
         }
         return n;
     }
-
+    
     public int updateRoomOccupant(int roomID) {
         String query = "Update room set roomOccupant += 1  where roomID = ?";
         int n = 0;
@@ -685,7 +577,7 @@ public class RoomDAO extends DBContext {
         }
         return room;
     }
-
+    
     public Rooms getRoomByID(int id) {
         String sql = "SELECT \n"
                 + "    r.roomID,\n"
@@ -727,48 +619,47 @@ public class RoomDAO extends DBContext {
         }
         return room;
     }
-
     public Room getRoomDetailByNumber(int roomNumber) {
-        String sql = "SELECT \n"
-                + "    r.roomID,\n"
-                + "    r.roomFloor,\n"
-                + "    r.roomNumber,\n"
-                + "    r.roomSize,\n"
-                + "    r.roomFee,\n"
-                + "    r.roomImg,\n"
-                + "    r.roomOccupant,\n"
-                + "    COUNT(re.renterID) AS total\n"
-                + "FROM \n"
-                + "    Room r\n"
-                + "LEFT JOIN \n"
-                + "    Renter re ON r.roomID = re.roomID\n"
-                + "WHERE \n"
-                + "    r.roomNumber = ?\n"
-                + "GROUP BY \n"
-                + "    r.roomID, r.roomFloor, r.roomNumber, r.roomSize, r.roomFee, r.roomImg, r.roomOccupant";
+    String sql = "SELECT \n"
+            + "    r.roomID,\n"
+            + "    r.roomFloor,\n"
+            + "    r.roomNumber,\n"
+            + "    r.roomSize,\n"
+            + "    r.roomFee,\n"
+            + "    r.roomImg,\n"
+            + "    r.roomOccupant,\n"
+            + "    COUNT(re.renterID) AS total\n"
+            + "FROM \n"
+            + "    Room r\n"
+            + "LEFT JOIN \n"
+            + "    Renter re ON r.roomID = re.roomID\n"
+            + "WHERE \n"
+            + "    r.roomNumber = ?\n"
+            + "GROUP BY \n"
+            + "    r.roomID, r.roomFloor, r.roomNumber, r.roomSize, r.roomFee, r.roomImg, r.roomOccupant";
 
-        Room room = null;
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, roomNumber);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int roomID = rs.getInt("roomID");
-                    int roomFloor = rs.getInt("roomFloor");
-                    int roomNum = rs.getInt("roomNumber"); // Changed variable name to avoid conflict
-                    int roomSize = rs.getInt("roomSize");
-                    BigDecimal roomFee = rs.getBigDecimal("roomFee");
-                    String roomImg = rs.getString("roomImg");
-                    int total = rs.getInt("total");
-                    int roomOccupant = rs.getInt("roomOccupant");
-                    room = new Room(roomID, roomFloor, roomNum, roomSize, roomImg, roomFee, total, roomOccupant);
-                }
+    Room room = null;
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, roomNumber);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                int roomID = rs.getInt("roomID");
+                int roomFloor = rs.getInt("roomFloor");
+                int roomNum = rs.getInt("roomNumber"); // Changed variable name to avoid conflict
+                int roomSize = rs.getInt("roomSize");
+                BigDecimal roomFee = rs.getBigDecimal("roomFee");
+                String roomImg = rs.getString("roomImg");
+                int total = rs.getInt("total");
+                int roomOccupant = rs.getInt("roomOccupant");
+                room = new Room(roomID, roomFloor, roomNum, roomSize, roomImg, roomFee, total, roomOccupant);
             }
-        } catch (SQLException e) {
-            System.out.println("Error retrieving room details: " + e.getMessage());
-            e.printStackTrace();
         }
-        return room;
+    } catch (SQLException e) {
+        System.out.println("Error retrieving room details: " + e.getMessage());
+        e.printStackTrace();
     }
+    return room;
+}
 
 //      public static void main(String[] args) {
 //        RoomDAO dao = new RoomDAO();
@@ -796,7 +687,7 @@ public class RoomDAO extends DBContext {
     public static void main(String[] args) {
         RoomDAO dao = new RoomDAO();
         List<Rooms> get = dao.getRooms();
-
+        
         for (Rooms rooms : get) {
             System.out.println(rooms.getRoomDepartment());
         }
