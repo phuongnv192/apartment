@@ -1,14 +1,6 @@
-<%@page import="dao.RoomDAO,java.util.List"%>
-<%@page import="java.text.DecimalFormat" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<%
-   String[] listItemNames = (String[]) request.getAttribute("listItem");
-   String error = (String) request.getAttribute("error");
-%>
-
 
 <!DOCTYPE html>
 <html> 

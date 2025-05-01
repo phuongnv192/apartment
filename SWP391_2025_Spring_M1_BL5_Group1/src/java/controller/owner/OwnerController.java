@@ -98,9 +98,9 @@ public class OwnerController extends HttpServlet {
         } else if (service.equals("setUnderRepair")) {
             setUnderRepair(request, response);
         }
-//        else if (service.equals("addRoom")) {
-//            addRoom(request, response);
-//        }
+        else if (service.equals("addRoom")) {
+            addRoom(request, response);
+        }
     }
 
     private void OwnerHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -170,7 +170,7 @@ public class OwnerController extends HttpServlet {
 
             Room r = new Room(roomNumber, roomFloor, roomSize, BigDecimal.valueOf(roomFee), roomImg);
             boolean success = dao.addRoom(r, ownerID);
-            response.sendRedirect("OwnerController?service=OwnerHome");
+            request.getRequestDispatcher("Owner/OwnerHome.jsp").forward(request, response);
             //OwnerController?service=roomDetail&roomID=
             //OwnerController?service=OwnerHome
         } else {
