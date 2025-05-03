@@ -8,13 +8,10 @@
             <file>file:/D:/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/Admin/Manage.java</file>
         </group>
         <group>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/Owner/OwnerController.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/LoginController.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/editRoom.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/dao/RoomDAO.java</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/add-room.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/navbar.jsp</file>
-            <file>file:/D:/works/SWP391__/SWP391_BL5/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/Renter/WalletController.java</file>
+            <file>file:/D:/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/Owner/OwnerController.java</file>
+            <file>file:/D:/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/dao/RoomDAO.java</file>
+            <file>file:/D:/apartment/SWP391_2025_Spring_M1_BL5_Group1/web/Owner/rooms.jsp</file>
+            <file>file:/D:/apartment/SWP391_2025_Spring_M1_BL5_Group1/src/java/controller/Renter/RenterRoomController.java</file>
         </group>
     </open-files>
 </project-private>

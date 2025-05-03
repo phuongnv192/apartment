@@ -149,6 +149,79 @@ public class RoomDAO extends DBContext {
         return rooms;
     }
 
+    public List<Rooms> getRoomByOwnerID(int ownerID) {
+        List<Rooms> rooms = new ArrayList<>();
+        String sql = "SELECT roomID\n"
+                + "	 , roomFloor\n"
+                + "	 , roomNumber\n"
+                + "	 , roomSize\n"
+                + "	 , roomFee\n"
+                + "	 , roomImg\n"
+                + "	 , roomStatus\n"
+                + "	 , roomOccupant\n"
+                + "	 , roomDepartment\n"
+                + "	 , ownerID\n"
+                + "  FROM room\n"
+                + " WHERE ownerID = ?\n"
+                + " ORDER BY roomID";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, ownerID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int roomID = rs.getInt("roomID");
+                int roomFloor = rs.getInt("roomFloor");
+                int roomNumber = rs.getInt("roomNumber");
+                int roomSize = rs.getInt("roomSize");
+                BigDecimal roomFee = rs.getBigDecimal("roomFee");
+                String roomImg = rs.getString("roomImg");
+                int roomStatus = rs.getInt("roomStatus");
+                int roomOccupant = rs.getInt("roomOccupant");
+                String roomDepartment = rs.getString("roomDepartment");
+
+                Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, roomDepartment);
+                rooms.add(room);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rooms;
+    }
+
+    public List<Rooms> pagingRoomOwner(int index, int ownerID) {
+        List<Rooms> rooms = new ArrayList<>();
+        String query = "SELECT *\n"
+                + "  FROM room\n"
+                + " WHERE ownerID = ?\n"
+                + " ORDER BY roomID\n"
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, ownerID);
+            ps.setInt(2, (index - 1) * 6);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int roomID = rs.getInt("roomID");
+                int roomFloor = rs.getInt("roomFloor");
+                int roomNumber = rs.getInt("roomNumber");
+                int roomSize = rs.getInt("roomSize");
+                BigDecimal roomFee = rs.getBigDecimal("roomFee");
+                String roomImg = rs.getString("roomImg");
+                int roomStatus = rs.getInt("roomStatus");
+                int roomOccupant = rs.getInt("roomOccupant");
+                String roomDepartment = rs.getString("roomDepartment");
+
+                Rooms room = new Rooms(roomID, roomFloor, roomNumber, roomSize, roomImg, roomFee, roomStatus, roomOccupant, roomDepartment);
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+        }
+        return rooms;
+    }
+
     public List<String> getItemName() {
         List<String> itemNames = new ArrayList<>();
         String query = "SELECT itemName FROM item";

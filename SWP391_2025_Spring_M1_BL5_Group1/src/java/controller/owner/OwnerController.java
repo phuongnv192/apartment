@@ -97,8 +97,7 @@ public class OwnerController extends HttpServlet {
             updateRoomStatus(request, response);
         } else if (service.equals("setUnderRepair")) {
             setUnderRepair(request, response);
-        }
-        else if (service.equals("addRoom")) {
+        } else if (service.equals("addRoom")) {
             addRoom(request, response);
         }
     }
@@ -110,10 +109,11 @@ public class OwnerController extends HttpServlet {
     private void listRoom(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDAO dao = new RoomDAO();
         int index = Integer.parseInt(request.getParameter("index"));
-
-        List<Rooms> rooms = dao.pagingRoom(index, 1);
-        List<Rooms> allRooms = dao.getRooms();
-        int totalRoom = dao.getTotalRoom();
+        int ownerID = (int) request.getSession().getAttribute("userID");
+        
+        List<Rooms> rooms = dao.pagingRoomOwner(index, ownerID);
+        List<Rooms> allRooms = dao.getRoomByOwnerID(ownerID);
+        int totalRoom = allRooms.size();
         int totalPage = totalRoom / 6;
         if (totalRoom % 6 != 0) {
             totalPage++;
@@ -420,50 +420,33 @@ public class OwnerController extends HttpServlet {
 
     private void requestList(HttpServletRequest request, HttpServletResponse response, int flag) throws ServletException, IOException {
         RequestDAO requestDAO = new RequestDAO();
-        HttpSession session = request.getSession();
-        int ownerID = (int) session.getAttribute("userID");
         if (flag == 0) {
-            List<RequestList> requests = requestDAO.getReqListByOwnerID(ownerID);
+            List<RequestList> requests = requestDAO.getAllRequest();
             request.setAttribute("requests", requests);
-            request.setAttribute("debugOwnerID", ownerID);
-
             request.getRequestDispatcher("Owner/OwnerRequest.jsp").forward(request, response);
         } else if (flag == 1) {
-            // REQUEST STATUS UPDATE
             String rawRequestId = request.getParameter("requestId");
             String status = request.getParameter("status");
-
             if (rawRequestId != null && status != null) {
                 try {
                     int requestId = Integer.parseInt(rawRequestId);
-                    // Fetch the current request
                     RequestList currentRequest = requestDAO.getRequestByID(requestId);
-
                     if (currentRequest != null) {
-                        // Update the request status regardless of the current state
                         boolean updateSuccess = requestDAO.updateRequestStatus(status, requestId);
-
                         if (updateSuccess) {
-                            // Set success message
                             request.getSession().setAttribute("message", "Request status updated successfully.");
                         } else {
-                            // Set failure message
                             request.getSession().setAttribute("message", "Request status updated successfully.");
                         }
                     } else {
-                        // Set message if request does not exist
                         request.getSession().setAttribute("message", "Request not found.");
                     }
                 } catch (NumberFormatException e) {
-                    // Handle invalid request ID format
                     request.getSession().setAttribute("message", "Invalid request ID format.");
                 }
             } else {
-                // Set message if status or requestId is invalid
                 request.getSession().setAttribute("message", "Invalid request parameters.");
             }
-
-            // Redirect back to the list page
             response.sendRedirect("OwnerController?service=listrequest");
         }
     }
