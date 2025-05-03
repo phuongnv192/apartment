@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page import="dao.RoomDAO,java.util.List"%>
 <%@page import="model.Rooms" %>
 
@@ -319,7 +320,11 @@
                                             <img src="data:image/jpg;base64,${room.roomImg}" class="img-fluid" style="height: 350px; width: 100%;">
                                         </a>
                                         <div class="property-content">
-                                            <div class="price mb-2"> <span data-fee="${room.roomFee*1000}"></span> </div>
+                                            <div class="price mb-2">
+                                                <span>
+                                                    <fmt:formatNumber value="${room.roomFee*1000}" type="number" maxFractionDigits="0" /> VND
+                                                </span>
+                                            </div>
                                             <div>
                                                 <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
                                                 <span class="city d-block mb-3">Room ${room.roomNumber}</span>
