@@ -272,19 +272,19 @@ Double livingTotal = (Double) request.getAttribute("livingTotal");
         <script src="js/aos.js"></script>
         <script src="js/main.js"></script>
         <script>
-                                    function confirmCancellation() {
-                                        var livingExpensesText = document.getElementById("livingExpensesValue").innerText;
-                                        var livingExpenses = parseFloat(livingExpensesText.replace(/[^0-9.-]/g, '')); // Chuyển đổi giá trị sang số
+            function confirmCancellation() {
+                var livingExpensesText = document.getElementById("livingExpensesValue").innerText;
+                var livingExpenses = parseFloat(livingExpensesText.replace(/[^0-9.-]/g, '')); // Chuyển đổi giá trị sang số
 
-                                        if (livingExpenses > 0) {
-                                            alert("You need to pay living expenses before checking out");
-                                        } else {
-                                            var confirmation = confirm("Are you sure you want to cancel this room?");
-                                            if (confirmation) {
-                                                document.getElementById("cancelForm").submit();
-                                            }
-                                        }
-                                    }
+                if (livingExpenses > 0) {
+                    alert("You need to pay living expenses before checking out");
+                } else {
+                    var confirmation = confirm("Are you sure you want to cancel this room?");
+                    if (confirmation) {
+                        document.getElementById("cancelForm").submit();
+                    }
+                }
+            }
         </script>
     </body>
 

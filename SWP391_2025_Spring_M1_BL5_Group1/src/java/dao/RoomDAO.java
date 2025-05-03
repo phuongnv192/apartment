@@ -91,6 +91,28 @@ public class RoomDAO extends DBContext {
         return null;
     }
 
+    public Room getLastestRoom() {
+        String query = "SELECT TOP 1 *\n"
+                + "  FROM room\n"
+                + " ORDER BY roomID DESC";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int roomID = rs.getInt("roomID");
+                int roomFloor = rs.getInt("roomFloor");
+                int roomNumber = rs.getInt("roomNumber");
+                int roomSize = rs.getInt("roomSize");
+                String roomImg = rs.getString("roomImg");
+                Room room = new Room(roomID, roomFloor, roomNumber, roomSize, roomImg, 0);
+                return room;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public boolean addRoom(Room r, int ownerID) {
         String query = "INSERT INTO room (roomID, roomNumber, roomFloor, roomSize, roomFee, roomImg, roomDepartment, ownerID)\n"
                 + "VALUES ((SELECT MAX(roomID) + 1 AS maxRoomID\n"

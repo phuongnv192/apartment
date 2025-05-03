@@ -110,7 +110,7 @@ public class OwnerController extends HttpServlet {
         RoomDAO dao = new RoomDAO();
         int index = Integer.parseInt(request.getParameter("index"));
         int ownerID = (int) request.getSession().getAttribute("userID");
-        
+
         List<Rooms> rooms = dao.pagingRoomOwner(index, ownerID);
         List<Rooms> allRooms = dao.getRoomByOwnerID(ownerID);
         int totalRoom = allRooms.size();
@@ -169,10 +169,9 @@ public class OwnerController extends HttpServlet {
             String roomImg = Base64.getEncoder().encodeToString(roomImg_raw);
 
             Room r = new Room(roomNumber, roomFloor, roomSize, BigDecimal.valueOf(roomFee), roomImg);
-            boolean success = dao.addRoom(r, ownerID);
-            request.getRequestDispatcher("Owner/OwnerHome.jsp").forward(request, response);
-            //OwnerController?service=roomDetail&roomID=
-            //OwnerController?service=OwnerHome
+            dao.addRoom(r, ownerID);
+            int roomID = dao.getLastestRoom().getRoomID();
+            request.getRequestDispatcher("OwnerController?service=roomDetail&roomID=" + roomID).forward(request, response);
         } else {
             request.getRequestDispatcher("Owner/add-room.jsp").forward(request, response);
         }
