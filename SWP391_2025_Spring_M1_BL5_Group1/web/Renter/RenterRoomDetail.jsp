@@ -176,7 +176,7 @@ Double livingTotal = (Double) request.getAttribute("livingTotal");
                                 <h6 class="mb-0">Room Fee</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <%= roomFeeFormatted %> 000 VND / month
+                                <%= roomFeeFormatted %> VND / month
                             </div>
                         </div>
                         <hr>
