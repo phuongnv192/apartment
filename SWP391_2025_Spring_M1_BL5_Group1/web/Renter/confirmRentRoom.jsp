@@ -80,10 +80,10 @@
             .payment-options button[name="paymentMethod"][value="cash"]:hover {
                 background-color: #218838;
             }
-/*            .payment-options button[name="paymentMethod"][value="online"] {
-                background-color: #007bff;
-                color: white;
-            }*/
+            /*            .payment-options button[name="paymentMethod"][value="online"] {
+                            background-color: #007bff;
+                            color: white;
+                        }*/
             .payment-options button[name="paymentMethod"][value="online"]:hover {
                 background-color: #0056b3;
             }
@@ -196,19 +196,15 @@
                                 <table class="payment-table">
                                     <tr>
                                         <td>Rent Price (4 months):</td>
-                                        <td><%= formattedFeePerQuarterly %>k VND</td> 
-                                    </tr>
-                                    <tr>
-                                        <td>Rent Price (x1 month):</td>
-                                        <td><%= formattedFeePerMonth %>k VND</td>
+                                        <td><%= formattedFeePerQuarterly %> VND</td> 
                                     </tr>
                                     <tr>
                                         <td>Deposit:</td>
-                                        <td>2000k VND</td>
+                                        <td>2000000 VND</td>
                                     </tr>
                                     <tr>
                                         <td>Total Amount:</td>
-                                        <td><%= formattedFeeTotal %>k VND</td> 
+                                        <td><%= formattedFeeTotal %> VND</td> 
                                     </tr>
                                 </table>
                                 <div class="payment-options">

@@ -366,7 +366,7 @@
                                                 <div class="property-content">
                                                     <div class="price mb-2">
                                                         <span>
-                                                            <fmt:formatNumber value="${room.roomFee*1000}" type="number" maxFractionDigits="0" /> VND
+                                                            <fmt:formatNumber value="${room.roomFee}" type="number" maxFractionDigits="0" /> VND
                                                         </span>
                                                     </div>
                                                     <div>

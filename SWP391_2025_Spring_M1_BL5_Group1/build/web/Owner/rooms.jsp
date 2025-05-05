@@ -322,7 +322,7 @@
                                         <div class="property-content">
                                             <div class="price mb-2">
                                                 <span>
-                                                    <fmt:formatNumber value="${room.roomFee*1000}" type="number" maxFractionDigits="0" /> VND
+                                                    <fmt:formatNumber value="${room.roomFee}" type="number" maxFractionDigits="0" /> VND
                                                 </span>
                                             </div>
                                             <div>
@@ -372,7 +372,7 @@
                                         <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
                                     </a>
                                     <div class="property-content">
-                                        <div class="price mb-2"> <span data-fee="<%= listAllRoom.get(i).getRoomFee().longValue() * 1000 %>"></span> </div>
+                                        <div class="price mb-2"> <span data-fee="<%= listAllRoom.get(i).getRoomFee().longValue() %>"></span> </div>
                                         <div>
                                             <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
                                             <span class="city d-block mb-3">Room <%= listAllRoom.get(i).getRoomNumber()%></span>
@@ -421,7 +421,7 @@
                                         <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
                                     </a>
                                     <div class="property-content">
-                                        <div class="price mb-2"> <span data-fee="<%= listAllRoom.get(i).getRoomFee().longValue() * 1000 %>"></span> </div>
+                                        <div class="price mb-2"> <span data-fee="<%= listAllRoom.get(i).getRoomFee().longValue()%>"></span> </div>
                                         <div>
                                             <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
                                             <span class="city d-block mb-3">Room <%= listAllRoom.get(i).getRoomNumber()%></span>
@@ -644,11 +644,11 @@
 
                     if (selectedPriceRange === "all") {
                         room.style.display = "block";
-                    } else if (selectedPriceRange === "below1M" && price < 1000) {
+                    } else if (selectedPriceRange === "below1M" && price < 1000000) {
                         room.style.display = "block";
-                    } else if (selectedPriceRange === "1To2M" && price >= 1000 && price <= 2000) {
+                    } else if (selectedPriceRange === "1To2M" && price >= 1000000 && price <= 2000000) {
                         room.style.display = "block";
-                    } else if (selectedPriceRange === "2To3M" && price > 2000 && price <= 3000) {
+                    } else if (selectedPriceRange === "2To3M" && price > 2000000 && price <= 3000000) {
                         room.style.display = "block";
                     } else {
                         room.style.display = "none";
