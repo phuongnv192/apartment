@@ -84,23 +84,8 @@ Double livingTotal = (Double) request.getAttribute("livingTotal");
                     </div>
                 </div>
             </nav>
+<div style="height: 100px;"></div>
 
-            <div class="hero page-inner overlay" style="background-image: url('images/hero_bg_3.jpg');">
-                <div class="container">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-lg-9 text-center mt-5">
-                            <h1 class="heading" >My Room</h1>
-
-                            <nav aria-label="breadcrumb" >
-                                <ol class="breadcrumb text-center justify-content-center">
-                                    <li class="breadcrumb-item "><a href="rentercontroller?service=renterhome">Home</a></li>
-
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         <% 
             if (rentDetails != null && !rentDetails.isEmpty()) {
@@ -176,7 +161,7 @@ Double livingTotal = (Double) request.getAttribute("livingTotal");
                                 <h6 class="mb-0">Room Fee</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <%= roomFeeFormatted %> VND / month
+                                <%= roomFeeFormatted %>  VND / month
                             </div>
                         </div>
                         <hr>
@@ -272,19 +257,19 @@ Double livingTotal = (Double) request.getAttribute("livingTotal");
         <script src="js/aos.js"></script>
         <script src="js/main.js"></script>
         <script>
-            function confirmCancellation() {
-                var livingExpensesText = document.getElementById("livingExpensesValue").innerText;
-                var livingExpenses = parseFloat(livingExpensesText.replace(/[^0-9.-]/g, '')); // Chuyển đổi giá trị sang số
+                                    function confirmCancellation() {
+                                        var livingExpensesText = document.getElementById("livingExpensesValue").innerText;
+                                        var livingExpenses = parseFloat(livingExpensesText.replace(/[^0-9.-]/g, '')); // Chuyển đổi giá trị sang số
 
-                if (livingExpenses > 0) {
-                    alert("You need to pay living expenses before checking out");
-                } else {
-                    var confirmation = confirm("Are you sure you want to cancel this room?");
-                    if (confirmation) {
-                        document.getElementById("cancelForm").submit();
-                    }
-                }
-            }
+                                        if (livingExpenses > 0) {
+                                            alert("You need to pay living expenses before checking out");
+                                        } else {
+                                            var confirmation = confirm("Are you sure you want to cancel this room?");
+                                            if (confirmation) {
+                                                document.getElementById("cancelForm").submit();
+                                            }
+                                        }
+                                    }
         </script>
     </body>
 

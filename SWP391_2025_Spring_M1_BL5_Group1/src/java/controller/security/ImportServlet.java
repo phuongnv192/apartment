@@ -23,7 +23,7 @@ import java.util.List;
  * @author Admin
  */
 @WebServlet(name="importServlet", urlPatterns={"/import"})
-public class importServlet extends HttpServlet {
+public class ImportServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

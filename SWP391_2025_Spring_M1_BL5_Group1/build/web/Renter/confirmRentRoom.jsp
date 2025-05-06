@@ -80,10 +80,10 @@
             .payment-options button[name="paymentMethod"][value="cash"]:hover {
                 background-color: #218838;
             }
-            /*            .payment-options button[name="paymentMethod"][value="online"] {
-                            background-color: #007bff;
-                            color: white;
-                        }*/
+/*            .payment-options button[name="paymentMethod"][value="online"] {
+                background-color: #007bff;
+                color: white;
+            }*/
             .payment-options button[name="paymentMethod"][value="online"]:hover {
                 background-color: #0056b3;
             }
@@ -198,9 +198,10 @@
                                         <td>Rent Price (4 months):</td>
                                         <td><%= formattedFeePerQuarterly %> VND</td> 
                                     </tr>
+                                    
                                     <tr>
                                         <td>Deposit:</td>
-                                        <td>2000000 VND</td>
+                                        <td>2000000  VND</td>
                                     </tr>
                                     <tr>
                                         <td>Total Amount:</td>

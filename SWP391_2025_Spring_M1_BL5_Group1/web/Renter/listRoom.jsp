@@ -1,5 +1,3 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page import="dao.RoomDAO,java.util.List"%>
 <%@page import="model.Rooms" %>
 
@@ -41,14 +39,16 @@
             }
 
 
-            function formatAllPrices() {
-                var priceElements = document.querySelectorAll('.price span');
-                priceElements.forEach(function (element) {
-                    var rawFee = element.getAttribute('data-fee');
-                    var formattedFee = formatNumber(rawFee);
-                    element.textContent = formattedFee + ' VND';
-                });
-            }
+  function formatAllPrices() {
+    const priceElements = document.querySelectorAll('.price span');
+    priceElements.forEach(element => {
+      const rawFee = element.getAttribute('data-fee');
+      if (rawFee) {
+        const formattedFee = formatNumber(rawFee);
+        element.textContent = formattedFee + ' VND';
+      }
+    });
+  }
 
 
             document.addEventListener('DOMContentLoaded', formatAllPrices);
@@ -295,7 +295,9 @@
                 <div class="menu-bg-wrap">
                     <div class="site-navigation">
                         <a href="rentercontroller?service=renterhome" class="logo m-0 float-start">Renter</a>
+
                         <jsp:include page = "navbar.jsp"></jsp:include>
+
                             <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
                                 <span></span>
                             </a>
@@ -312,6 +314,7 @@
                     <div class="row justify-content-center align-items-center">
                         <div class="col-lg-9 text-center mt-5">
                             <h1 class="heading" data-aos="fade-up">Rooms</h1>
+
                             <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
                                 <ol class="breadcrumb text-center justify-content-center">
                                     <li class="breadcrumb-item "><a href="rentercontroller?service=renterhome">Home</a></li>
@@ -347,190 +350,189 @@
                         <!-- End Search and Filter -->
 
                         <div class="col-lg-9">
-                        <c:if test="${isRenter != 0}">
-                            <!-- Rented Room Message -->
-                            <div class="rented-room-message text-center">
-                                <p>You have already rented a room</p>
-                            </div>
-                        </c:if>   
-                        <c:if test="${isRenter == 0}">
-                            <!-- Available Rooms -->
-                            <div id="roomListContainer">
-                                <div id="roomList" class="room-list-container row" >
-                                    <c:forEach var="room" items="${rooms}">
-                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="${room.roomNumber}" data-room-price="${room.roomFee}">
-                                            <div class="property-item mb-30">
-                                                <a href="OwnerController?service=roomDetail&roomID=${room.roomID}" class="img">
-                                                    <img src="data:image/jpg;base64,${room.roomImg}" class="img-fluid" style="height: 350px; width: 100%;">
-                                                </a>
-                                                <div class="property-content">
-                                                    <div class="price mb-2">
-                                                        <span>
-                                                            <fmt:formatNumber value="${room.roomFee}" type="number" maxFractionDigits="0" /> VND
-                                                        </span>
-                                                    </div>
-                                                    <div>
-                                                        <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
-                                                        <span class="city d-block mb-3">Room ${room.roomNumber}</span>
-                                                        <div class="specs d-flex mb-4">
-                                                            <span class="d-block d-flex align-items-center me-3">
-                                                                <span class="icon-bed me-2"></span>
-                                                                <span class="caption">${room.roomSize} beds</span>
-                                                            </span>
-                                                            <span style="margin-right: 10px" class="d-block d-flex align-items-center">
-                                                                <span class="icon-building me-2"></span>
-                                                                <span class="caption">${room.roomFloor} Floor</span>
-                                                            </span>
-                                                            <span class="d-block d-flex align-items-center">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
-                                                                <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
-                                                                </svg>
-                                                                <span class="caption"> Building ${room.roomDepartment} </span>
-                                                            </span>
-                                                        </div>
-                                                        <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=${room.roomID}" class="btn btn-primary py-2 px-3">See details</a>
-                                                        <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=${room.roomID}" class="btn btn-rent py-2 px-3">Rent</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                            <!-- End Available Rooms -->
+                        <% if (isRenter != 0) { %>
+                        <!-- Rented Room Message -->
+                        <div class="rented-room-message text-center">
+                            <p>You have already rented a room</p>
+                        </div>
+                        <% } %>
 
-                            <!-- All Rooms -->
-                            <div id="allRoomListContainer" style="display: none;">
-                                <div id="allRoomList" class="room-list-container row">
-                                    <% for (Rooms room : listAllRoom) { 
+                        <% if (isRenter == 0) { %>
+                        <!-- Available Rooms -->
+                        <div id="roomListContainer">
+                            <div id="roomList" class="room-list-container row" >
+                                <% for (Rooms room : listRoom) { 
                             if (room.getRoomStatus() == 1) { %>
-                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>">
-                                        <div class="property-item mb-30">
-                                            <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
-                                                <% String base64Image = room.getRoomImg(); %>
-                                                <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
-                                            </a>
-                                            <div class="property-content">
-                                                <div class="price mb-2"><span><%= room.getRoomFee().longValue() %>k VND</span></div>
-                                                <div>
-                                                    <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
-                                                    <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
-                                                    <div class="specs d-flex mb-4">
-                                                        <span class="d-block d-flex align-items-center me-3">
-                                                            <span class="icon-bed me-2"></span>
-                                                            <span class="caption"><%= room.getRoomSize() %> beds</span>
-                                                        </span>
-                                                        <span style="margin-right: 10px" class="d-block d-flex align-items-center">
-                                                            <span class="icon-building me-2"></span>
-                                                            <span class="caption"><%= room.getRoomFloor() %> Floor</span>
-                                                        </span>
-                                                        <span class="d-block d-flex align-items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
-                                                            <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
-                                                            </svg>
-                                                            <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
-                                                        </span>
-                                                    </div>
-                                                    <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
-                                                    <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>">
+                                    <div class="property-item mb-30">
+                                        <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
+                                            <% String base64Image = room.getRoomImg(); %>
+                                            <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
+                                        </a>
+                                        <div class="property-content">
+                                            <div class="price mb-2"><span data-fee="<%= room.getRoomFee().longValue()  %>"></span></div>
+                                            <div>
+                                                <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
+                                                <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
+                                                <div class="specs d-flex mb-4">
+                                                    <span class="d-block d-flex align-items-center me-3">
+                                                        <span class="icon-bed me-2"></span>
+                                                        <span class="caption"><%= room.getRoomSize() %> beds</span>
+                                                    </span>
+                                                    <span style="margin-right: 10px" class="d-block d-flex align-items-center">
+                                                        <span class="icon-building me-2"></span>
+                                                        <span class="caption"><%= room.getRoomFloor() %> Floor</span>
+                                                    </span>
+                                                    <span class="d-block d-flex align-items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
+                                                        <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
+                                                        </svg>
+                                                        <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
+                                                    </span>
                                                 </div>
+                                                <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
+                                                <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <% } } %>
                                 </div>
+                                <% } } %>
                             </div>
-                            <!-- End All Rooms -->
+                        </div>
+                        <!-- End Available Rooms -->
 
-                            <!-- Rooms in Department A -->
-                            <div id="departmentAListContainer" style="display: none;">
-                                <div id="allRoomList" class="room-list-container row">
-                                    <% for (Rooms room : listAllRoom) { 
-                                           if (room.getRoomStatus() == 1 && room.getRoomDepartment().trim().equals("A")) { 
-                                    %>                                
-                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>" data-room-department="<%= room.getRoomDepartment() %>" >
-                                        <div class="property-item mb-30">
-                                            <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
-                                                <% String base64Image = room.getRoomImg(); %>
-                                                <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
-                                            </a>
-                                            <div class="property-content">
-                                                <div class="price mb-2"><span><%= room.getRoomFee().longValue() %>k VND</span></div>
-                                                <div>
-                                                    <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
-                                                    <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
-                                                    <div class="specs d-flex mb-4">
-                                                        <span class="d-block d-flex align-items-center me-3">
-                                                            <span class="icon-bed me-2"></span>
-                                                            <span class="caption"><%= room.getRoomSize() %> beds</span>
-                                                        </span>
-                                                        <span style="margin-right: 10px" class="d-block d-flex align-items-center">
-                                                            <span class="icon-building me-2"></span>
-                                                            <span class="caption"><%= room.getRoomFloor() %> Floor</span>
-                                                        </span>
-                                                        <span class="d-block d-flex align-items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
-                                                            <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
-                                                            </svg>
-                                                            <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
-                                                        </span>
-                                                    </div>
-                                                    <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
-                                                    <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
+                        <!-- All Rooms -->
+                        <div id="allRoomListContainer" style="display: none;">
+                            <div id="allRoomList" class="room-list-container row">
+                                <% for (Rooms room : listAllRoom) { 
+                            if (room.getRoomStatus() == 1) { %>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>">
+                                    <div class="property-item mb-30">
+                                        <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
+                                            <% String base64Image = room.getRoomImg(); %>
+                                            <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
+                                        </a>
+                                        <div class="property-content">
+                                            <div class="price mb-2"><span><%= room.getRoomFee().longValue() %>k VND</span></div>
+                                            <div>
+                                                <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
+                                                <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
+                                                <div class="specs d-flex mb-4">
+                                                    <span class="d-block d-flex align-items-center me-3">
+                                                        <span class="icon-bed me-2"></span>
+                                                        <span class="caption"><%= room.getRoomSize() %> beds</span>
+                                                    </span>
+                                                    <span style="margin-right: 10px" class="d-block d-flex align-items-center">
+                                                        <span class="icon-building me-2"></span>
+                                                        <span class="caption"><%= room.getRoomFloor() %> Floor</span>
+                                                    </span>
+                                                    <span class="d-block d-flex align-items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
+                                                        <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
+                                                        </svg>
+                                                        <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
+                                                    </span>
                                                 </div>
+                                                <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
+                                                <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <% } } %>
                                 </div>
+                                <% } } %>
                             </div>
-                            <!-- End Rooms in Department A -->
+                        </div>
+                        <!-- End All Rooms -->
 
-                            <!-- Rooms in Department B -->
-                            <div id="departmentBListContainer" style="display: none;">
-                                <div id="departmentBList" class="room-list-container row">
-                                    <% for (Rooms room : listAllRoom) { 
+                        <!-- Rooms in Department A -->
+                        <div id="departmentAListContainer" style="display: none;">
+                            <div id="allRoomList" class="room-list-container row">
+                                <% for (Rooms room : listAllRoom) { 
+                                       if (room.getRoomStatus() == 1 && room.getRoomDepartment().trim().equals("A")) { 
+                                %>                                
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>" data-room-department="<%= room.getRoomDepartment() %>" >
+                                    <div class="property-item mb-30">
+                                        <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
+                                            <% String base64Image = room.getRoomImg(); %>
+                                            <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
+                                        </a>
+                                        <div class="property-content">
+                                            <div class="price mb-2"><span><%= room.getRoomFee().longValue() %>k VND</span></div>
+                                            <div>
+                                                <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
+                                                <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
+                                                <div class="specs d-flex mb-4">
+                                                    <span class="d-block d-flex align-items-center me-3">
+                                                        <span class="icon-bed me-2"></span>
+                                                        <span class="caption"><%= room.getRoomSize() %> beds</span>
+                                                    </span>
+                                                    <span style="margin-right: 10px" class="d-block d-flex align-items-center">
+                                                        <span class="icon-building me-2"></span>
+                                                        <span class="caption"><%= room.getRoomFloor() %> Floor</span>
+                                                    </span>
+                                                    <span class="d-block d-flex align-items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
+                                                        <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
+                                                        </svg>
+                                                        <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
+                                                    </span>
+                                                </div>
+                                                <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
+                                                <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } } %>
+                            </div>
+                        </div>
+                        <!-- End Rooms in Department A -->
+
+                        <!-- Rooms in Department B -->
+                        <div id="departmentBListContainer" style="display: none;">
+                            <div id="departmentBList" class="room-list-container row">
+                                <% for (Rooms room : listAllRoom) { 
                                         if (room.getRoomStatus() == 1 && room.getRoomDepartment().trim().equals("B")) { %>
-                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>">
-                                        <div class="property-item mb-30">
-                                            <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
-                                                <% String base64Image = room.getRoomImg(); %>
-                                                <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
-                                            </a>
-                                            <div class="property-content">
-                                                <div class="price mb-2"><span><%= room.getRoomFee().longValue() %>k VND</span></div>
-                                                <div>
-                                                    <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
-                                                    <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
-                                                    <div class="specs d-flex mb-4">
-                                                        <span class="d-block d-flex align-items-center me-3">
-                                                            <span class="icon-bed me-2"></span>
-                                                            <span class="caption"><%= room.getRoomSize() %> beds</span>
-                                                        </span>
-                                                        <span style="margin-right: 10px" class="d-block d-flex align-items-center">
-                                                            <span class="icon-building me-2"></span>
-                                                            <span class="caption"><%= room.getRoomFloor() %> Floor</span>
-                                                        </span>
-                                                        <span class="d-block d-flex align-items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
-                                                            <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
-                                                            </svg>
-                                                            <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
-                                                        </span>
-                                                    </div>
-                                                    <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
-                                                    <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-room-name="<%= room.getRoomNumber() %>" data-room-price="<%= room.getRoomFee().longValue() %>">
+                                    <div class="property-item mb-30">
+                                        <a href="OwnerController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="img">
+                                            <% String base64Image = room.getRoomImg(); %>
+                                            <img src="data:image/jpg;base64,<%= base64Image %>" class="img-fluid" style="height: 350px; width: 100%;">
+                                        </a>
+                                        <div class="property-content">
+                                            <div class="price mb-2"><span><%= room.getRoomFee().longValue() %>k VND</span></div>
+                                            <div>
+                                                <span class="d-block mb-2 text-black-50">Thon 3, Tan Xa, Thach That</span>
+                                                <span class="city d-block mb-3">Room <%= room.getRoomNumber() %></span>
+                                                <div class="specs d-flex mb-4">
+                                                    <span class="d-block d-flex align-items-center me-3">
+                                                        <span class="icon-bed me-2"></span>
+                                                        <span class="caption"><%= room.getRoomSize() %> beds</span>
+                                                    </span>
+                                                    <span style="margin-right: 10px" class="d-block d-flex align-items-center">
+                                                        <span class="icon-building me-2"></span>
+                                                        <span class="caption"><%= room.getRoomFloor() %> Floor</span>
+                                                    </span>
+                                                    <span class="d-block d-flex align-items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
+                                                        <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
+                                                        </svg>
+                                                        <span class="caption"> Building <%= room.getRoomDepartment() %> </span>
+                                                    </span>
                                                 </div>
+                                                <a style="margin-right: 53px" href="RenterRoomController?service=roomDetail&roomID=<%= room.getRoomID() %>" class="btn btn-primary py-2 px-3">See details</a>
+                                                <a style="background-color: #17a2b8;" href="RenterRoomController?service=rentRoom&roomID=<%= room.getRoomID() %>" class="btn btn-rent py-2 px-3">Rent</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <% } } %>
                                 </div>
+                                <% } } %>
                             </div>
-                            <!-- End Rooms in Department B -->
+                        </div>
+                        <!-- End Rooms in Department B -->
 
 
-                        </c:if>   
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -539,12 +541,9 @@
 
         <!-- paging -->
         <div class="pagination" style="margin: 0px; padding-bottom: 50px">
-            <c:forEach var="i" begin="1" end="${totalPage}">
-                <a href="RenterRoomController?service=listRoom&index=${i}"
-                   class="${i == index ? 'active' : ''}">
-                    ${i}
-                </a>
-            </c:forEach>
+            <% for (int i = 0; i < totalPage; i++) { %>
+            <a href="RenterRoomController?service=listRoom&index=<%=i+1%>" class="<%= (i + 1 == index) ? "active" : "" %>"><%= i + 1 %></a>
+            <% } %>
         </div>  
 
         <!-- footer -->
@@ -622,22 +621,22 @@
         <script src="js/main_owner.js"></script>
 
         <script>
-                                        document.addEventListener('DOMContentLoaded', function () {
-                                            var searchInput = document.getElementById('searchInput');
-                                            var roomList = document.getElementById('roomList').children;
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                var searchInput = document.getElementById('searchInput');
+                                                var roomList = document.getElementById('roomList').children;
 
-                                            searchInput.addEventListener('input', function () {
-                                                var filter = searchInput.value.toLowerCase();
-                                                Array.from(roomList).forEach(function (room) {
-                                                    var roomName = room.getAttribute('data-room-name').toLowerCase();
-                                                    if (roomName.indexOf(filter) > -1) {
-                                                        room.style.display = '';
-                                                    } else {
-                                                        room.style.display = 'none';
-                                                    }
+                                                searchInput.addEventListener('input', function () {
+                                                    var filter = searchInput.value.toLowerCase();
+                                                    Array.from(roomList).forEach(function (room) {
+                                                        var roomName = room.getAttribute('data-room-name').toLowerCase();
+                                                        if (roomName.indexOf(filter) > -1) {
+                                                            room.style.display = '';
+                                                        } else {
+                                                            room.style.display = 'none';
+                                                        }
+                                                    });
                                                 });
                                             });
-                                        });
         </script>
 
         <script>
@@ -668,11 +667,11 @@
 
                     if (selectedPriceRange === "all") {
                         room.style.display = "block";
-                    } else if (selectedPriceRange === "below1M" && price < 1000) {
+                    } else if (selectedPriceRange === "below1M" && price < 1000000) {
                         room.style.display = "block";
-                    } else if (selectedPriceRange === "1To2M" && price >= 1000 && price <= 2000) {
+                    } else if (selectedPriceRange === "1To2M" && price >= 1000000 && price <= 2000000) {
                         room.style.display = "block";
-                    } else if (selectedPriceRange === "2To3M" && price > 2000 && price <= 3000) {
+                    } else if (selectedPriceRange === "2To3M" && price > 2000000 && price <= 3000000) {
                         room.style.display = "block";
                     } else {
                         room.style.display = "none";

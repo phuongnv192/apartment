@@ -67,8 +67,8 @@ public class RenterRoomController extends HttpServlet {
             index = 1;
         }
         List<Rooms> rooms = roomDAO.pagingRoom(index, 0);
-        List<Rooms> allRooms = roomDAO.getRoomsAvailable();
-        int totalRoom = allRooms.size();
+        List<Rooms> allRooms = roomDAO.getRooms();
+        int totalRoom = roomDAO.getTotalRoom();
         int totalPage = totalRoom / 6;
         if (totalRoom % 6 != 0) {
             totalPage++;
