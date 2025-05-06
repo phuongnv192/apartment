@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 
@@ -181,34 +182,66 @@
                             <div class="p-2 ml-3"><h4>Bill Recap</h4></div>
                             <div class="p-2 d-flex">
                                 <div class="col-8">Room Fee</div>
-                                <div class="ml-auto">${bl.roomFee} k VND</div>
+                                <div class="ml-auto">
+                                <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.roomFee}" /> VND
+                            </div>
                         </div>
                         <div class="p-2 d-flex">
                             <div class="col-8">Electric Bill</div>
-                            <div class="ml-auto">${bl.electric}  k VND</div>
+                            <div class="ml-auto">
+                                <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.electric}" /> VND
+                            </div>
                         </div>
                         <div class="p-2 d-flex">
                             <div class="col-8">Water Bill</div>
-                            <div class="ml-auto">${bl.water} k VND</div>
+                            <div class="ml-auto">
+                                <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.water}" /> VND
+                            </div>
                         </div>
                         <div class="p-2 d-flex">
                             <div class="col-8">Service</div>
-                            <div class="ml-auto">${bl.service} k VND</div>
+                            <div class="ml-auto">
+                                <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.service}" /> VND
+                            </div>
                         </div>
                         <div class="border-top px-4 mx-3">
                         </div>
                         <div class="p-2 d-flex pt-3">
                             <div class="col-8">Penalty Money</div>
-                            <div class="ml-auto">${bl.penMoney}  k VND</div>
+                            <div class="ml-auto">
+                                <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.penMoney}" /> VND</div>
                         </div>
                         <div class="p-2 d-flex">
                             <div class="col-8">Other Pay</div>
-                            <div class="ml-auto">${bl.other} k VND</div>
+                            <div class="ml-auto">
+                                <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.other}" /> VND</div>
                         </div>
                         <div class="border-top px-4 mx-3"></div>
                         <div class="p-2 d-flex pt-3">
                             <div class="col-8"><b>Total</b></div>
-                            <div class="ml-auto"><b class="green">${bl.roomFee + bl.electric + bl.water + bl.service + bl.penMoney + bl.other} k VND</b></div>
+                            <div class="ml-auto"><b class="green">
+                                    <fmt:formatNumber 
+                                    type = "number" 
+                                    maxFractionDigits = "0" 
+                                    value = "${bl.roomFee + bl.electric + bl.water + bl.service + bl.penMoney + bl.other}" /> VND</b></div>
                         </div>
                     </div>
                 </div>    
@@ -241,12 +274,12 @@
             <button class="btn btn-primary" onclick="printBill()">Print Bill</button>
         </div>
         <div class="col-md-12">
-    <div class="form-group d-flex justify-content-center">
-        <a href="roomfee?roomID=${sessionScope.roomID}" style="color:#FFF" class="btn btn-info">
-            <i class="fa-regular fa-rectangle-list"></i>&nbsp;Back
-        </a>
-    </div>
-</div>
+            <div class="form-group d-flex justify-content-center">
+                <a href="roomfee?roomID=${sessionScope.roomID}" style="color:#FFF" class="btn btn-info">
+                    <i class="fa-regular fa-rectangle-list"></i>&nbsp;Back
+                </a>
+            </div>
+        </div>
         <script>
             function printBill() {
                 window.print();
