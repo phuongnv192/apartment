@@ -363,7 +363,7 @@ public class BillDAO extends MyDAO {
                 + "    [createAt],\n"
                 + "    [deadline],\n"
                 + "    [payAt],\n"
-                + "    ((([electric] + [water] + [other] + [penMoney] + [service]) * 1000)) AS total\n"
+                + "    ((([electric] + [water] + [other] + [penMoney] + [service]))) AS total\n"
                 + "FROM \n"
                 + "    [HL_Motel].[dbo].[bill]\n"
                 + "WHERE [roomID] = ?\n"

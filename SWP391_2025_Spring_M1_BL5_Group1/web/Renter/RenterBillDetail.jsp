@@ -307,11 +307,8 @@
                         <div class="modal-body" style="text-align: center; font-size: 22px;">
                             <p>
                                 <strong>Your Balance:</strong><br>
-                                <span id="walletBalance">
-                                    <fmt:formatNumber 
-                                        type = "number" 
-                                        maxFractionDigits = "0" 
-                                        value = "${balanceRenter}" /></span> VND
+                                <span id="walletBalance">${balanceRenter}
+                                    </span> VND
                             </p>
                             <input type="hidden" name="balance" value="${balanceRenter}">
                             <input type="hidden" name="totalAmountToPay" value="${bill.total}">
