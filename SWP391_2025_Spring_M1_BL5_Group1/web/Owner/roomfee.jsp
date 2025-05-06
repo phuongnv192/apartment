@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 
@@ -131,7 +132,7 @@
                 <div class="container" >
                     <div class="menu-bg-wrap">
                         <div class="site-navigation">
-                           <a href="OwnerController?service=OwnerHome" class="logo m-0 float-start">Owner</a>
+                            <a href="OwnerController?service=OwnerHome" class="logo m-0 float-start">Owner</a>
 
                             <jsp:include page="navbar.jsp"></jsp:include>
 
@@ -189,124 +190,129 @@
                                                                                     <c:forEach items="${allStatus}" var="st">
                                                                                         <option value="${st.resStatus}">${st.resStatus}</option>
                                                                                     </c:forEach>
-                                                                                </select>
+                                                                                    </select>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
+                                                                        </form>
+                                                                    </div>-->
+                                                                </div>
+                                                                <small style="font-style: italic; color: #EF3159">(*) you can edit or delete fee only when renter not paid that fee</small>
+                                                            </div>
+                                                            <a class="btn btn-primary" style="text-decoration: none; color: #FFF" href="addroomfee?id=${requestScope.roomID}"><i class="fa-solid fa-plus"></i></a>                                                                                                             
+                                                                <c:set var="page" value="${requestScope.page}"></c:set>
+                                                                <div class="comment-widgets m-b-20">
+                                                                <c:if test="${not empty message}">
+                                                                    <div class="alert alert-success text-center" role="alert" style="margin-bottom: 20px; font-weight: bold;">
+                                                                        ${message}
                                                                     </div>
-                                                                </form>
-                                                            </div>-->
-                                                                                </div>
-                                                                                <small style="font-style: italic; color: #EF3159">(*) you can edit or delete fee only when renter not paid that fee</small>
-                                                                            </div>
-                                                                            <a class="btn btn-primary" style="text-decoration: none; color: #FFF" href="addroomfee?id=${requestScope.roomID}"><i class="fa-solid fa-plus"></i></a>                                                                                                             
-                                                                            <c:set var="page" value="${requestScope.page}"></c:set>
-                                                                                <div class="comment-widgets m-b-20">
-                                                                                    <c:if test="${not empty message}">
-    <div class="alert alert-success text-center" role="alert" style="margin-bottom: 20px; font-weight: bold;">
-        ${message}
-    </div>
-</c:if>
-                                                                                    <div class="table-container">
-                                                                                        <table>
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Id</th>
-                                                                                                    <th>Create Time</th>
-                                                                                                    <th>Paid Time</th>
-                                                                                                    <th>Total</th>
-                                                                                                    <th style="text-align: center">Action</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <c:forEach var="bl" items="${requestScope.billList}" varStatus="loop" >
-                                                                                                <c:set var="id" value="${bl.billID}"/>
-                                                                                                <tr>
-                                                                                                    <td style="text-align: center">${loop.index + 1}</td>
-                                                                                                    <td style="padding: 20px 0px ">${bl.createAt}</td>
-                                                                                                    <td>
-                                                                                                        <c:choose>
-                                                                                                            <c:when test="${bl.payAt eq null}">
-                                                                                                                <p style="color: #EF3159; padding-bottom: 0px; font-weight: bold">Not paid yet!</p>
-                                                                                                            </c:when>
-                                                                                                            <c:otherwise>
-                                                                                                                ${bl.payAt}
-                                                                                                            </c:otherwise>
-                                                                                                        </c:choose></td>
-                                                                                                    <td style="font-weight: bold">${bl.total}k VND</td> 
-                                                                                                    <td class="d-flex justify-content-center gap-3">
-                                                                                                        <a class="btn btn-info" style="text-decoration: none; color: #FFF" href="roomfeedetail?id=${id}"><i class="fa-solid fa-circle-info"></i></a>
-                                                                                                        <c:choose>
-                                                                                                            <c:when test="${bl.payAt eq null}">
-                                                                                                                <a class="btn btn-success" style="text-decoration: none" href="EditRoomFeeController?id=${id}"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                                                                                <a class="btn btn-danger" style="text-decoration: none; color: #FFF" href="DeleteRoomFeeController?id=${id}" onclick="return confirm('Are you sure you want to delete this fee?');">
-                                                                                                                    <i class="fa-regular fa-trash-alt"></i>
-                                                                                                                </a>
-                                                                                                            </c:when>
-                                                                                                            <c:otherwise>
-                                                                                                            </c:otherwise>
-                                                                                                        </c:choose>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </c:forEach>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <!--                                                                                        <div class="pagination">
-                                                                            <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                                                                                <a class="${i==page?"active":""}" href="requesthistory?page=${i}">${i}</a>
-                                                                            </c:forEach>
-                                                                        </div>-->
-                                                                        </div>
-
-
-                                                                        <div class="row" style="margin-top:50px ">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group d-flex justify-content-center">
-                                                                                    <a style="padding: 10px 20px; font-size: 18px" href="/SWP391.E.BL5.G5/ListRenterController" class="btn btn-danger"><i class="fa-solid fa-chevron-left"></i>&nbsp;Back To List</a>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
+                                                                </c:if>
+                                                                <div class="table-container">
+                                                                    <table>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Id</th>
+                                                                                <th>Create Time</th>
+                                                                                <th>Paid Time</th>
+                                                                                <th>Total</th>
+                                                                                <th style="text-align: center">Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <c:forEach var="bl" items="${requestScope.billList}" varStatus="loop" >
+                                                                                <c:set var="id" value="${bl.billID}"/>
+                                                                                <tr>
+                                                                                    <td style="text-align: center">${loop.index + 1}</td>
+                                                                                    <td style="padding: 20px 0px ">${bl.createAt}</td>
+                                                                                    <td>
+                                                                                        <c:choose>
+                                                                                            <c:when test="${bl.payAt eq null}">
+                                                                                                <p style="color: #EF3159; padding-bottom: 0px; font-weight: bold">Not paid yet!</p>
+                                                                                            </c:when>
+                                                                                            <c:otherwise>
+                                                                                                ${bl.payAt}
+                                                                                            </c:otherwise>
+                                                                                        </c:choose></td>
+                                                                                    <td style="font-weight: bold">
+                                                                            <fmt:formatNumber 
+                                                                                type = "number" 
+                                                                                maxFractionDigits = "0" 
+                                                                                value = "${bl.total}" /> VND
+                                                                            </td> 
+                                                                            <td class="d-flex justify-content-center gap-3">
+                                                                                <a class="btn btn-info" style="text-decoration: none; color: #FFF" href="roomfeedetail?id=${id}"><i class="fa-solid fa-circle-info"></i></a>
+                                                                                    <c:choose>
+                                                                                        <c:when test="${bl.payAt eq null}">
+                                                                                        <a class="btn btn-success" style="text-decoration: none" href="EditRoomFeeController?id=${id}"><i class="fa-regular fa-pen-to-square"></i></a>
+                                                                                        <a class="btn btn-danger" style="text-decoration: none; color: #FFF" href="DeleteRoomFeeController?id=${id}" onclick="return confirm('Are you sure you want to delete this fee?');">
+                                                                                            <i class="fa-regular fa-trash-alt"></i>
+                                                                                        </a>
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
+                                                                            </td>
+                                                                            </tr>
+                                                                        </c:forEach>
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
 
                                                             </div>
+                                                            <!--                                                                                        <div class="pagination">
+                                                            <c:forEach begin="${1}" end="${requestScope.num}" var="i">
+                                                                <a class="${i==page?"active":""}" href="requesthistory?page=${i}">${i}</a>
+                                                            </c:forEach>
+                                                        </div>-->
                                                         </div>
+
+
+                                                        <div class="row" style="margin-top:50px ">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group d-flex justify-content-center">
+                                                                    <a style="padding: 10px 20px; font-size: 18px" href="/SWP391.E.BL5.G5/ListRenterController" class="btn btn-danger"><i class="fa-solid fa-chevron-left"></i>&nbsp;Back To List</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
+
                                             </div>
-                                        </section>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                        </section>
                     </div>
                 </div>
+
             </div>
-        </section>
-        <!--        <script>
-        <c:set var="succ" value="${requestScope.success}"></c:set>
-        <c:set var="err" value="${requestScope.error}"></c:set>
-        var successMessage = "${succ}";
-        var errorMessage = "${err}";
-        if (successMessage !== "") {
-            alert(successMessage);
-        }
-        if (errorMessage !== "") {
-            alert(errorMessage);
-        }
-    </script>-->
+        </div>
+    </div>
+</div>
+</div>
+</section>
+<!--        <script>
+<c:set var="succ" value="${requestScope.success}"></c:set>
+<c:set var="err" value="${requestScope.error}"></c:set>
+var successMessage = "${succ}";
+var errorMessage = "${err}";
+if (successMessage !== "") {
+    alert(successMessage);
+}
+if (errorMessage !== "") {
+    alert(errorMessage);
+}
+</script>-->
 
 
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/tiny-slider.js"></script>
-        <script src="js/aos.js"></script>
-        <script src="js/navbar.js"></script>
-        <script src="js/counter.js"></script>
-        <script src="js/custom.js"></script>
-    </body>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/tiny-slider.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/counter.js"></script>
+<script src="js/custom.js"></script>
+</body>
 
 </html>
